@@ -1,0 +1,6 @@
+.vs/
+OpenWorld/x64/Debug/
+!Release/*.dll
+x64/Debug/*.exe
+x64/Debug/*.ilk
+x64/Debug/*.pdb
