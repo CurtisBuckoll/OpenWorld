@@ -1,3 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="core\Engine.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\graphics\gl\ShaderProgram.cpp">
+      <Filter>core\graphics\gl</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="core">
+      <UniqueIdentifier>{66e2bac2-834c-47ae-afcc-37563498036b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\graphics">
+      <UniqueIdentifier>{75f19d0c-737d-435c-829c-075ad07ccbb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\graphics\gl">
+      <UniqueIdentifier>{f42e8211-c008-4917-9aca-cdf4903d7f9c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="core\Engine.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\graphics\gl\ShaderProgram.h">
+      <Filter>core\graphics\gl</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>

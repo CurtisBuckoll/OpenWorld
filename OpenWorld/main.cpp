@@ -23,8 +23,8 @@ const char* fragmentShaderSource = "#version 330 core\n"
 // -----------------------------------------------------
 
 // parameters
-static const int kWIN_WIDTH = 600;
-static const int kWIN_HEIGHT = 400;
+static const int kWIN_WIDTH = 1000;
+static const int kWIN_HEIGHT = 600;
 
 int main( int argc, char** argv )
 {
@@ -69,50 +69,52 @@ int main( int argc, char** argv )
    glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof( float ), (void*)0 );
    glEnableVertexAttribArray( 0 );
 
-   // shaders
-   unsigned int vertexShader;
-   vertexShader = glCreateShader( GL_VERTEX_SHADER );
-   glShaderSource( vertexShader, 1, &vertexShaderSource, NULL );
-   glCompileShader( vertexShader );
+   //// shaders
+   //unsigned int vertexShader;
+   //vertexShader = glCreateShader( GL_VERTEX_SHADER );
+   //glShaderSource( vertexShader, 1, &vertexShaderSource, NULL );
+   //glCompileShader( vertexShader );
 
-   int  success;
-   char infoLog[512];
-   glGetShaderiv( vertexShader, GL_COMPILE_STATUS, &success );
-   if( !success )
-   {
-      glGetShaderInfoLog( vertexShader, 512, NULL, infoLog );
-      std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
-   }
+   //int  success;
+   //char infoLog[512];
+   //glGetShaderiv( vertexShader, GL_COMPILE_STATUS, &success );
+   //if( !success )
+   //{
+   //   glGetShaderInfoLog( vertexShader, 512, NULL, infoLog );
+   //   std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
+   //}
 
-   unsigned int fragmentShader;
-   fragmentShader = glCreateShader( GL_FRAGMENT_SHADER );
-   glShaderSource( fragmentShader, 1, &fragmentShaderSource, NULL );
-   glCompileShader( fragmentShader );
-   glGetShaderiv( fragmentShader, GL_COMPILE_STATUS, &success );
-   if( !success )
-   {
-      glGetShaderInfoLog( fragmentShader, 512, NULL, infoLog );
-      std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
-   }
+   //unsigned int fragmentShader;
+   //fragmentShader = glCreateShader( GL_FRAGMENT_SHADER );
+   //glShaderSource( fragmentShader, 1, &fragmentShaderSource, NULL );
+   //glCompileShader( fragmentShader );
+   //glGetShaderiv( fragmentShader, GL_COMPILE_STATUS, &success );
+   //if( !success )
+   //{
+   //   glGetShaderInfoLog( fragmentShader, 512, NULL, infoLog );
+   //   std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
+   //}
 
-   unsigned int shaderProgram;
-   shaderProgram = glCreateProgram();
-   glAttachShader( shaderProgram, vertexShader );
-   glAttachShader( shaderProgram, fragmentShader );
-   glLinkProgram( shaderProgram );
-   glGetProgramiv( shaderProgram, GL_LINK_STATUS, &success );
-   if( !success )
-   {
-      glGetProgramInfoLog( shaderProgram, 512, NULL, infoLog );
-      std::cout << "ERROR::SHADER::LINKING_FAILED\n" << infoLog << std::endl;
-   }
+   //unsigned int shaderProgram;
+   //shaderProgram = glCreateProgram();
+   //glAttachShader( shaderProgram, vertexShader );
+   //glAttachShader( shaderProgram, fragmentShader );
+   //glLinkProgram( shaderProgram );
+   //glGetProgramiv( shaderProgram, GL_LINK_STATUS, &success );
+   //if( !success )
+   //{
+   //   glGetProgramInfoLog( shaderProgram, 512, NULL, infoLog );
+   //   std::cout << "ERROR::SHADER::LINKING_FAILED\n" << infoLog << std::endl;
+   //}
 
-   glDeleteShader( vertexShader );
-   glDeleteShader( fragmentShader );
+   //glDeleteShader( vertexShader );
+   //glDeleteShader( fragmentShader );
 
    //glEnable(GL_BLEND);
    //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
    //glEnable(GL_DEPTH_TEST);
+
+   ow::core::ShaderProgram shaderProgram( vertexShaderSource, fragmentShaderSource );
 
    while( true )
    {
@@ -121,12 +123,14 @@ int main( int argc, char** argv )
 
       glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
+      shaderProgram.use();
 
-      glUseProgram( shaderProgram );
       glBindVertexArray( VAO );
       glDrawArrays( GL_TRIANGLES, 0, 3 );
 
       SDL_GL_SwapWindow( engine.window() );
+
+      shaderProgram.unuse();
    }
 
 

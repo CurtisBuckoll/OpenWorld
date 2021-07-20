@@ -3,6 +3,8 @@
 #include <SDL/SDL.h>
 #include <GL/glew.h>
 
+#include "graphics/gl/ShaderProgram.h"
+
 // -----------------------------------------------------------------
 //
 namespace ow
@@ -20,6 +22,15 @@ class Engine
 {
 
 public:
+
+   // -----------------------------------------------------------------
+   //
+   Engine() = delete;
+   ~Engine() = default;
+   Engine( const Engine& ) = delete;
+   Engine( Engine&& ) = delete;
+   Engine operator=( const Engine& ) = delete;
+   Engine operator=( Engine&& ) = delete;
 
    // -----------------------------------------------------------------
    //
@@ -41,15 +52,6 @@ public:
    // -----------------------------------------------------------------
    //
    SDL_Window* window() { return window_; }
-
-   // -----------------------------------------------------------------
-   //
-   Engine() = delete;
-   ~Engine() = default;
-   Engine( const Engine& ) = delete;
-   Engine( Engine&& ) = delete;
-   Engine operator=( const Engine& ) = delete;
-   Engine operator=( Engine&& ) = delete;
 
 private:
 
