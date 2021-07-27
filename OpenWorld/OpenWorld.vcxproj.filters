@@ -11,6 +11,9 @@
     <ClCompile Include="core\Platform.cpp">
       <Filter>core</Filter>
     </ClCompile>
+    <ClCompile Include="core\graphics\gl\Texture.cpp">
+      <Filter>core\graphics\gl</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="core">
@@ -32,6 +35,9 @@
     </ClInclude>
     <ClInclude Include="core\Platform.h">
       <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\graphics\gl\Texture.h">
+      <Filter>core\graphics\gl</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

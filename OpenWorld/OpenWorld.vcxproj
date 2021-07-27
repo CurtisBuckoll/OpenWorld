@@ -152,12 +152,14 @@
   <ItemGroup>
     <ClCompile Include="core\Engine.cpp" />
     <ClCompile Include="core\graphics\gl\ShaderProgram.cpp" />
+    <ClCompile Include="core\graphics\gl\Texture.cpp" />
     <ClCompile Include="core\Platform.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core\Engine.h" />
     <ClInclude Include="core\graphics\gl\ShaderProgram.h" />
+    <ClInclude Include="core\graphics\gl\Texture.h" />
     <ClInclude Include="core\Platform.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
