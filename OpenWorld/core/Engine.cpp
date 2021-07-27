@@ -1,5 +1,7 @@
 #include "Engine.h"
 
+#include <iostream>
+
 
 // =======================================================================
 //
@@ -31,6 +33,24 @@ void Engine::init()
                                width_,
                                height_,
                                SDL_WINDOW_OPENGL );
+
+   // initGL
+   glViewport( 0, 0, width_, height_ );
+   SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
+   SDL_GLContext glContext = SDL_GL_CreateContext( window_ );
+   if( glContext == nullptr )
+   {
+      std::cout << "SDL_GL Context failed to create";
+      exit( 0 );
+   }
+
+   // init GLEW
+   glewExperimental = true;
+   if( glewInit() != GLEW_OK )
+   {
+      std::cout << "Could not initalize GLEW";
+      exit( 0 );
+   }
 }
 
 //// =======================================================================

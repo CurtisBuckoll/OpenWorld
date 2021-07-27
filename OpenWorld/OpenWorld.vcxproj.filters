@@ -8,6 +8,9 @@
     <ClCompile Include="core\graphics\gl\ShaderProgram.cpp">
       <Filter>core\graphics\gl</Filter>
     </ClCompile>
+    <ClCompile Include="core\Platform.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="core">
@@ -26,6 +29,9 @@
     </ClInclude>
     <ClInclude Include="core\graphics\gl\ShaderProgram.h">
       <Filter>core\graphics\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="core\Platform.h">
+      <Filter>core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

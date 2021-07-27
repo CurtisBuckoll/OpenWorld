@@ -62,7 +62,6 @@ ShaderProgram::~ShaderProgram()
    glDeleteShader( id_);
 }
 
-
 // =======================================================================
 //
 void ShaderProgram::use()

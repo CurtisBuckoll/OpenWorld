@@ -20,11 +20,13 @@ public:
    //
    ShaderProgram() = delete;
    ShaderProgram( const ShaderProgram& ) = delete;
-   ShaderProgram operator=( const ShaderProgram& ) = delete;
+   ShaderProgram& operator=( const ShaderProgram& ) = delete;
 
    // -----------------------------------------------------------------
    //
    ShaderProgram( const std::string& vsSource, const std::string& fsSource );
+
+   //ShaderProgram( const std::string& vsPath, const std::string& fsPath );
 
    // -----------------------------------------------------------------
    //
