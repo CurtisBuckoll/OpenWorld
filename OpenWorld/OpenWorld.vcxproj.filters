@@ -25,6 +25,12 @@
     <Filter Include="core\graphics\gl">
       <UniqueIdentifier>{f42e8211-c008-4917-9aca-cdf4903d7f9c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3rdparty">
+      <UniqueIdentifier>{be4f4ff6-cec4-43e6-a5b9-e17d576720c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rdparty\io">
+      <UniqueIdentifier>{58d27974-093e-4453-bc35-37d3d24a914d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core\Engine.h">
@@ -38,6 +44,9 @@
     </ClInclude>
     <ClInclude Include="core\graphics\gl\Texture.h">
       <Filter>core\graphics\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\io\stb_image.h">
+      <Filter>3rdparty\io</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

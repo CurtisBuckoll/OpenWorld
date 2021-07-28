@@ -7,6 +7,8 @@
 #include <Windows.h>
 #endif // _WIN32
 
+namespace ow
+{
 namespace core
 {
 
@@ -20,10 +22,11 @@ std::string workingDir()
    TCHAR buffer[MAX_PATH];
    GetCurrentDirectory( MAX_PATH, buffer );
    std::wstring wstr( &buffer[0] );
-   return std::string( wstr.begin(), wstr.end() );
+   return std::string( wstr.begin(), wstr.end() ) + "\\";
 #else 
    return std::string( "" );
-#endif// _WIN32
+#endif // _WIN32
 }
 
+}
 }

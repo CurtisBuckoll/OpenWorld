@@ -8,19 +8,22 @@
 #include "core/Engine.h"
 #include "core/Platform.h"
 
+// temp
+#include "core/graphics/gl/Texture.h"
+
 // temp -------------------------------------------------
 const char* vertexShaderSource = "#version 330 core\n"
-"layout (location = 0) in vec3 aPos;\n"
-"void main()\n"
-"{\n"
-"   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-"}\0";
+   "layout (location = 0) in vec3 aPos;\n"
+   "void main()\n"
+   "{\n"
+   "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+   "}\0";
 const char* fragmentShaderSource = "#version 330 core\n"
-"out vec4 FragColor;\n"
-"void main()\n"
-"{\n"
-"    FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-"}\0";
+   "out vec4 FragColor;\n"
+   "void main()\n"
+   "{\n"
+   "    FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+   "}\0";
 // -----------------------------------------------------
 
 // TODO: read from file
@@ -32,6 +35,23 @@ int main( int argc, char** argv )
 {
    ow::core::Engine engine( kWIN_WIDTH, kWIN_HEIGHT );
    engine.init();
+
+   // -------------------------------------
+   // begin texture code
+   // quick test for texture
+   std::string texturePath = ow::core::workingDir() + "assets\\test\\wall.jpg";
+   ow::core::Texture testTexture( texturePath );
+
+
+   float texCoords[] = {
+    0.0f, 0.0f,  // lower-left corner  
+    1.0f, 0.0f,  // lower-right corner
+    0.5f, 1.0f   // top-center corner
+   };
+
+
+   // -------------------------------------
+   // end texture code
 
    // -------------------------------------
    // begin tri code
@@ -72,8 +92,6 @@ int main( int argc, char** argv )
 
       shaderProgram.unuse();
    }
-
-
 
    // -------------------------------------
    // end tri code

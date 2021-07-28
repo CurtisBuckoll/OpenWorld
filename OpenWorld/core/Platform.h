@@ -2,6 +2,10 @@
 
 #include <string>
 
+// -----------------------------------------------------------------
+//
+namespace ow
+{
 namespace core
 {
 
@@ -9,4 +13,5 @@ namespace core
 //
 std::string workingDir();
 
+}
 }

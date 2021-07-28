@@ -76,7 +76,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)deps/include/;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)deps/include/;$(ProjectDir);$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)deps/lib/x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -157,6 +157,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="3rdparty\io\stb_image.h" />
     <ClInclude Include="core\Engine.h" />
     <ClInclude Include="core\graphics\gl\ShaderProgram.h" />
     <ClInclude Include="core\graphics\gl\Texture.h" />
