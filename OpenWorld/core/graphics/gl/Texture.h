@@ -28,10 +28,10 @@ private:
 
    void init( uint8_t* data, bool genMips );
 
-   GLuint id_ = 0u;
-   GLsizei width_ = 0;
-   GLsizei height_ = 0;
-  
+   GLuint id_           = 0u;
+   GLsizei width_       = 0;
+   GLsizei height_      = 0;
+   GLsizei numChannels_ = 0;
 };
 
 }
