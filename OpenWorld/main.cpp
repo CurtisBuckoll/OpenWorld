@@ -11,26 +11,6 @@
 // temp
 #include "core/graphics/gl/Texture.h"
 
-// temp -------------------------------------------------
-const char* vertexShaderSource = "#version 440 core\n"
-   "layout (location = 0) in vec3 aPos;\n"
-   "layout (location = 1) in vec2 aTexCoord;\n"
-   "out vec2 texCoord;\n"
-   "void main()\n"
-   "{\n"
-   "   gl_Position = vec4(aPos, 1.0);\n"
-   "   texCoord = aTexCoord;\n"
-   "}\0";
-const char* fragmentShaderSource = "#version 440 core\n"
-   "uniform sampler2D ourTexture;\n"
-   "in vec2 texCoord;\n"
-   "out vec4 FragColor;\n"
-   "void main()\n"
-   "{\n"
-   "    FragColor = texture(ourTexture, texCoord);\n"
-   "}\0";
-// -----------------------------------------------------
-
 // TODO: read from file
 // parameters
 static const int kWIN_WIDTH = 1000;
@@ -101,7 +81,7 @@ int main( int argc, char** argv )
    glBindBuffer( GL_ARRAY_BUFFER, 0 );
    glBindVertexArray( 0 );
 
-   ow::core::ShaderProgram shaderProgram( vertexShaderSource, fragmentShaderSource );
+   ow::core::ShaderProgram shaderProgram( "simpleShader_vs", "simpleShader_fs" );
 
    while( true )
    {

@@ -6,28 +6,29 @@
 
 namespace ow
 {
-enum class ReadMode
-{
-   Binary,
-   Text
-};
 
 class FileReader
 {
 public:
-   FileReader() = delete;
+   FileReader() = default;
+   FileReader( const FileReader& ) = delete;
+   FileReader& operator=( const FileReader& ) = delete;
 
-   FileReader( const std::string& relPath, ReadMode mode );
    ~FileReader();
+
+   FileReader( const std::string& absPath, bool isBinary );
+
+   uint8_t* read( const std::string& absPath, bool isBinary );
 
    uint8_t* data();
 
-   void close();
-
 private:
 
+   void openFile( const std::string& absPath, bool isBinary );
+   void closeFile();
+
    std::ifstream f_;
-   std::unique_ptr<uint8_t> data_;
+   std::unique_ptr<uint8_t[]> data_;
 };
 
 }

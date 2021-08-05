@@ -1,7 +1,17 @@
 #include "ShaderProgram.h"
 
+#include <filesystem>
 #include <iostream>
 #include <string>
+
+#include "../../Platform.h"
+#include "../../../io/FileReader.h" // TODO: clean up include paths
+
+namespace
+{
+static const std::string shaderFolder = "shaders";
+static const std::string shaderExt = ".glsl";
+}
 
 namespace ow
 {
@@ -10,12 +20,18 @@ namespace core
 
 // =======================================================================
 //
-ShaderProgram::ShaderProgram( const std::string& vsSource, const std::string& fsSource )
+ShaderProgram::ShaderProgram( const std::string& vsName, const std::string& fsName )
 {
+   std::filesystem::path shaderDir( workingDir() );
+   shaderDir.append( shaderFolder ).append( vsName ).concat( shaderExt );
+
+   FileReader reader;
+   auto vsSource = reader.read( shaderDir.string(), false );
+
    // shaders
    unsigned int vsId;
    vsId = glCreateShader( GL_VERTEX_SHADER );
-   auto vsData = static_cast<const GLchar*>(vsSource.c_str());
+   auto vsData = reinterpret_cast<const GLchar*>(vsSource);
    glShaderSource( vsId, 1, &vsData, nullptr );
    glCompileShader( vsId );
 
@@ -28,9 +44,12 @@ ShaderProgram::ShaderProgram( const std::string& vsSource, const std::string& fs
       std::cout << "Vertex shader compile failure\n" << errorLog << std::endl;
    }
 
+   shaderDir.replace_filename( fsName ).replace_extension( shaderExt );
+   auto fsSource = reader.read( shaderDir.string(), false );
+
    unsigned int fsId;
    fsId = glCreateShader( GL_FRAGMENT_SHADER );
-   auto fsData = static_cast<const GLchar*>(fsSource.c_str());
+   auto fsData = reinterpret_cast<const GLchar*>(fsSource);
    glShaderSource( fsId, 1, &fsData, nullptr );
    glCompileShader( fsId );
    glGetShaderiv( fsId, GL_COMPILE_STATUS, &status );

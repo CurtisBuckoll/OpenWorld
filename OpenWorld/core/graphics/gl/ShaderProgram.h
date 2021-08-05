@@ -23,9 +23,11 @@ public:
 
    // -----------------------------------------------------------------
    //
-   ShaderProgram( const std::string& vsSource, const std::string& fsSource );
+   ShaderProgram( const std::string& vsName, const std::string& fsName );
 
-   //ShaderProgram( const std::string& vsPath, const std::string& fsPath );
+   // -----------------------------------------------------------------
+   //
+   //ShaderProgram( const std::string& shaderName );
 
    // -----------------------------------------------------------------
    //
