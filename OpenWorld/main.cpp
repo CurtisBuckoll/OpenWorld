@@ -11,6 +11,17 @@
 // temp
 #include "core/graphics/gl/Texture.h"
 
+struct Vertex
+{
+   float pos[3];
+   float uv[2];
+};
+
+static constexpr ow::core::AttribFormat inputLayout[2] = {
+   {0, 3, GL_FLOAT, GL_FALSE, 0},
+   {1, 2, GL_FLOAT, GL_FALSE, offsetof(Vertex, uv)}
+};
+
 // TODO: read from file
 // parameters
 static const int kWIN_WIDTH = 1000;
@@ -64,7 +75,7 @@ int main( int argc, char** argv )
       // positions          // texture coords
       -1.0f, -1.0f, -0.5f,   0.0f, 0.0f,   // bottom left
        0.0f, -1.0f, -0.5f,   1.0f, 0.0f,   // bottom right
-      -0.5f,  0.0f, -0.5f,   0.5f, 1.0f    // top
+      -0.5f,  0.0f, -0.5f,   0.5f, 0.5f    // top
    };
 
    // TODO: see to seperate buffer from layout: https://www.khronos.org/opengl/wiki/Vertex_Specification#Separate_attribute_format
@@ -120,7 +131,10 @@ int main( int argc, char** argv )
 
    // ---------
 
-   ow::core::ShaderProgram shaderProgram( "simpleShader_vs", "simpleShader_fs" );
+   ow::core::ShaderProgram shaderProgram( "simpleShader_vs",
+                                          "simpleShader_fs",
+                                          inputLayout,
+                                          sizeof( inputLayout ) / sizeof( ow::core::AttribFormat ) );
 
    int tmpCount = 0;
    while( true )
@@ -134,14 +148,18 @@ int main( int argc, char** argv )
 
       testTexture.bind();
 
-      //glBindVertexArray( VAO );
-      unsigned int vboToUse = VBO1;
-      if( tmpCount > 10000 )
+      static unsigned int vboToUse = VBO1;
+      if(( tmpCount % 1000) == 0 )
+      {
+         vboToUse = VBO1;
+      }
+      else if( (tmpCount % 1000) == 1000 / 2 )
       {
          vboToUse = VBO2;
       }
       glBindVertexBuffer( 0, vboToUse, 0, 5 * sizeof( float ) );
-      //glVertexBindingDivisor( 0, 0 );
+      glVertexBindingDivisor( 0, 0 ); // TODO: do we need this??
+
 
       glDrawArrays( GL_TRIANGLES, 0, 3 );
 

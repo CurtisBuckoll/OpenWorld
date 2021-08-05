@@ -4,11 +4,22 @@
 
 #include <string>
 
+// see here to seperate vbo from vao format:
+// https://www.khronos.org/opengl/wiki/Vertex_Specification#Separate_attribute_format
 
 namespace ow
 {
 namespace core
 {
+
+struct AttribFormat
+{
+   GLuint    idx_;
+   GLint     numValues_;
+   GLenum    type_;
+   GLboolean normalized_;
+   GLuint    offset_;
+};
 
 // =======================================================================
 //
@@ -23,11 +34,10 @@ public:
 
    // -----------------------------------------------------------------
    //
-   ShaderProgram( const std::string& vsName, const std::string& fsName );
-
-   // -----------------------------------------------------------------
-   //
-   //ShaderProgram( const std::string& shaderName );
+   ShaderProgram( const std::string& vsName,
+                  const std::string& fsName,
+                  const AttribFormat* attribs,
+                  uint32_t numAttribs );
 
    // -----------------------------------------------------------------
    //
@@ -46,6 +56,9 @@ public:
    void unuse();
 
 private:
+
+   // -----------------------------------------------------------------
+   //
    GLuint id_;
    GLuint vao_;
 };

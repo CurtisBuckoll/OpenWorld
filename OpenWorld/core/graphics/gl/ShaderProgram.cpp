@@ -10,7 +10,7 @@
 namespace
 {
 static constexpr std::string_view shaderFolder = "shaders";
-static constexpr std::string_view shaderExt = ".glsl";
+static constexpr std::string_view shaderExt    = ".glsl";
 }
 
 namespace ow
@@ -20,15 +20,18 @@ namespace core
 
 // =======================================================================
 //
-ShaderProgram::ShaderProgram( const std::string& vsName, const std::string& fsName )
+ShaderProgram::ShaderProgram( const std::string& vsName,
+                              const std::string& fsName,
+                              const AttribFormat* attribs,
+                              uint32_t numAttribs )
 {
    std::filesystem::path shaderDir( workingDir() );
    shaderDir.append( shaderFolder ).append( vsName ).concat( shaderExt );
 
+   // vertex shader
    FileReader reader;
    auto vsSource = reader.read( shaderDir.string(), false );
 
-   // shaders
    unsigned int vsId;
    vsId = glCreateShader( GL_VERTEX_SHADER );
    auto vsData = reinterpret_cast<const GLchar*>(vsSource);
@@ -44,6 +47,7 @@ ShaderProgram::ShaderProgram( const std::string& vsName, const std::string& fsNa
       std::cout << "Vertex shader compile failure\n" << errorLog << std::endl;
    }
 
+   // fragment shader
    shaderDir.replace_filename( fsName ).replace_extension( shaderExt );
    auto fsSource = reader.read( shaderDir.string(), false );
 
@@ -59,6 +63,9 @@ ShaderProgram::ShaderProgram( const std::string& vsName, const std::string& fsNa
       std::cout << "Fragment shader compile failure\n" << errorLog << std::endl;
    }
 
+   // TODO: geometry shader
+
+   // shader program
    id_ = glCreateProgram();
    glAttachShader( id_, vsId );
    glAttachShader( id_, fsId );
@@ -77,13 +84,24 @@ ShaderProgram::ShaderProgram( const std::string& vsName, const std::string& fsNa
    glGenVertexArrays( 1, &vao_ );
    glBindVertexArray( vao_ );
 
+   for( uint32_t i = 0; i < numAttribs; ++i )
+   {
+      glEnableVertexAttribArray( i );
+      glVertexAttribFormat( attribs[i].idx_,
+                            attribs[i].numValues_,
+                            attribs[i].type_,
+                            attribs[i].normalized_,
+                            attribs[i].offset_ );
+      glVertexAttribBinding( i, 0 );
+   }
+
    // TODO: add input layout
-   glEnableVertexAttribArray( 0 );
-   glVertexAttribFormat( 0, 3, GL_FLOAT, GL_FALSE, 0 );
-   glVertexAttribBinding( 0, 0 );
-   glEnableVertexAttribArray( 1 );
-   glVertexAttribFormat( 1, 2, GL_FLOAT, GL_FALSE, 3 * sizeof( float ) );
-   glVertexAttribBinding( 1, 0 );
+   //glEnableVertexAttribArray( 0 );
+   //glVertexAttribFormat( 0, 3, GL_FLOAT, GL_FALSE, 0 );
+   //glVertexAttribBinding( 0, 0 );
+   //glEnableVertexAttribArray( 1 );
+   //glVertexAttribFormat( 1, 2, GL_FLOAT, GL_FALSE, 3 * sizeof( float ) );
+   //glVertexAttribBinding( 1, 0 );
 
    glBindVertexArray( 0 );
 }
