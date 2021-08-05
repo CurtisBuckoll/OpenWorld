@@ -10,14 +10,16 @@
 
 // temp
 #include "core/graphics/gl/Texture.h"
+#include "core/graphics/gl/Buffer.h"
 
+// temporary
 struct Vertex
 {
    float pos[3];
    float uv[2];
 };
 
-static constexpr ow::core::AttribFormat inputLayout[2] = {
+static constexpr ow::core::AttribFormat inputLayout[] = {
    {0, 3, GL_FLOAT, GL_FALSE, 0},
    {1, 2, GL_FLOAT, GL_FALSE, offsetof(Vertex, uv)}
 };
@@ -64,18 +66,18 @@ int main( int argc, char** argv )
    //   -0.5f,  0.5f, 0.0f,   0.0f, 1.0f    // top left 
    //};
 
-   float vertices[] = {
-      // positions          // texture coords
-      -0.5f, -0.5f, 0.0f,   0.0f, 0.0f,   // bottom left
-       0.5f, -0.5f, 0.0f,   1.0f, 0.0f,   // bottom right
-       0.0f,  0.5f, 0.0f,   0.5f, 1.0f    // top
+   Vertex vertices[] = {
+       // positions          // texture coords
+      {-0.5f, -0.5f, 0.0f,   0.0f, 0.0f},   // bottom left
+      { 0.5f, -0.5f, 0.0f,   1.0f, 0.0f},   // bottom right
+      { 0.0f,  0.5f, 0.0f,   0.5f, 1.0f}    // top
    };
 
-   float vertices2[] = {
+   Vertex vertices2[] = {
       // positions          // texture coords
-      -1.0f, -1.0f, -0.5f,   0.0f, 0.0f,   // bottom left
-       0.0f, -1.0f, -0.5f,   1.0f, 0.0f,   // bottom right
-      -0.5f,  0.0f, -0.5f,   0.5f, 0.5f    // top
+      {-1.0f, -1.0f, -0.5f,   0.5f, 0.0f},   // bottom left
+      { 0.0f, -1.0f, -0.5f,   1.0f, 0.0f},   // bottom right
+      {-0.5f,  0.0f, -0.5f,   0.5f, 0.5f}    // top
    };
 
    // TODO: see to seperate buffer from layout: https://www.khronos.org/opengl/wiki/Vertex_Specification#Separate_attribute_format
@@ -100,17 +102,20 @@ int main( int argc, char** argv )
    //glBindVertexArray( 0 );
 
    // ---------
-   unsigned int VBO1;
-   glGenBuffers( 1, &VBO1 );
-   glBindBuffer( GL_ARRAY_BUFFER, VBO1 );
-   glBufferData( GL_ARRAY_BUFFER, sizeof( vertices ), vertices, GL_STATIC_DRAW );
-   glBindBuffer( GL_ARRAY_BUFFER, 0 );
+   //unsigned int VBO1;
+   //glGenBuffers( 1, &VBO1 );
+   //glBindBuffer( GL_ARRAY_BUFFER, VBO1 );
+   //glBufferData( GL_ARRAY_BUFFER, sizeof( vertices ), vertices, GL_STATIC_DRAW );
+   //glBindBuffer( GL_ARRAY_BUFFER, 0 );
+   ow::core::Buffer VBO1( ow::core::BufferUsage::VertexBufferObject, sizeof( vertices ), sizeof( Vertex ), vertices );
 
-   unsigned int VBO2;
-   glGenBuffers( 1, &VBO2 );
-   glBindBuffer( GL_ARRAY_BUFFER, VBO2 );
-   glBufferData( GL_ARRAY_BUFFER, sizeof( vertices2 ), vertices2, GL_STATIC_DRAW );
-   glBindBuffer( GL_ARRAY_BUFFER, 0 );
+
+   //unsigned int VBO2;
+   //glGenBuffers( 1, &VBO2 );
+   //glBindBuffer( GL_ARRAY_BUFFER, VBO2 );
+   //glBufferData( GL_ARRAY_BUFFER, sizeof( vertices2 ), vertices2, GL_STATIC_DRAW );
+   //glBindBuffer( GL_ARRAY_BUFFER, 0 );
+   ow::core::Buffer VBO2( ow::core::BufferUsage::VertexBufferObject, sizeof( vertices2 ), sizeof( Vertex ), vertices2 );
 
    //unsigned int VAO;
    //glGenVertexArrays( 1, &VAO );
@@ -148,22 +153,25 @@ int main( int argc, char** argv )
 
       testTexture.bind();
 
-      static unsigned int vboToUse = VBO1;
       if(( tmpCount % 1000) == 0 )
       {
-         vboToUse = VBO1;
+         //vboToUse = VBO1;
+         VBO1.bind( 0 );
       }
       else if( (tmpCount % 1000) == 1000 / 2 )
       {
-         vboToUse = VBO2;
+         //vboToUse = VBO2;
+         VBO2.bind( 0 );
       }
-      glBindVertexBuffer( 0, vboToUse, 0, 5 * sizeof( float ) );
-      glVertexBindingDivisor( 0, 0 ); // TODO: do we need this??
+      //glBindVertexBuffer( 0, vboToUse, 0, 5 * sizeof( float ) );
+      //glVertexBindingDivisor( 0, 0 ); // TODO: do we need this??
 
 
       glDrawArrays( GL_TRIANGLES, 0, 3 );
 
       SDL_GL_SwapWindow( engine.window() );
+
+      VBO1.unbind();
 
       shaderProgram.unuse();
       ++tmpCount;

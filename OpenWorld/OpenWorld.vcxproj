@@ -152,6 +152,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="core\Engine.cpp" />
+    <ClCompile Include="core\graphics\gl\Buffer.cpp" />
     <ClCompile Include="core\graphics\gl\ShaderProgram.cpp" />
     <ClCompile Include="core\graphics\gl\Texture.cpp" />
     <ClCompile Include="core\Platform.cpp" />
@@ -161,6 +162,7 @@
   <ItemGroup>
     <ClInclude Include="3rdparty\io\stb_image.h" />
     <ClInclude Include="core\Engine.h" />
+    <ClInclude Include="core\graphics\gl\Buffer.h" />
     <ClInclude Include="core\graphics\gl\ShaderProgram.h" />
     <ClInclude Include="core\graphics\gl\Texture.h" />
     <ClInclude Include="core\Platform.h" />

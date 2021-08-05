@@ -17,6 +17,9 @@
     <ClCompile Include="io\FileReader.cpp">
       <Filter>io</Filter>
     </ClCompile>
+    <ClCompile Include="core\graphics\gl\Buffer.cpp">
+      <Filter>core\graphics\gl</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="core">
@@ -59,6 +62,9 @@
     </ClInclude>
     <ClInclude Include="io\FileReader.h">
       <Filter>io</Filter>
+    </ClInclude>
+    <ClInclude Include="core\graphics\gl\Buffer.h">
+      <Filter>core\graphics\gl</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

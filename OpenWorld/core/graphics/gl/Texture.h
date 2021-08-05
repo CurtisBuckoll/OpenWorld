@@ -15,6 +15,8 @@ public:
    Texture() = delete;
    Texture( const Texture& ) = delete;
    Texture& operator=( const Texture& ) = delete;
+   Texture( const Texture&& ) = delete;
+   Texture& operator=( const Texture&& ) = delete;
 
    //Texture( const std::shared_ptr<uint8_t>& data );
    Texture( const std::string& filepath, bool genMips = true );
@@ -40,6 +42,7 @@ private:
    // and then specify those when we call bind() on the texture. That way we can share/reuse samplers and not
    // have textures/samplers 1:1.
    // this would allow us to easily use something like: layout(binding = x) uniform sampler2D ourTexture
+   // -> maybe init all the samplers in Engine.cpp?
    // see: https://stackoverflow.com/questions/19085956/what-is-the-difference-between-gltexparameter-and-glsamplerparameter
    //GLuint samplerId_    = 0u;
 };
