@@ -9,8 +9,8 @@
 
 namespace
 {
-static const std::string shaderFolder = "shaders";
-static const std::string shaderExt = ".glsl";
+static constexpr std::string_view shaderFolder = "shaders";
+static constexpr std::string_view shaderExt = ".glsl";
 }
 
 namespace ow
@@ -72,13 +72,30 @@ ShaderProgram::ShaderProgram( const std::string& vsName, const std::string& fsNa
 
    glDeleteShader( vsId );
    glDeleteShader( fsId );
+
+   // create the vao
+   glGenVertexArrays( 1, &vao_ );
+   glBindVertexArray( vao_ );
+
+   // TODO: add input layout
+   glEnableVertexAttribArray( 0 );
+   glVertexAttribFormat( 0, 3, GL_FLOAT, GL_FALSE, 0 );
+   glVertexAttribBinding( 0, 0 );
+   glEnableVertexAttribArray( 1 );
+   glVertexAttribFormat( 1, 2, GL_FLOAT, GL_FALSE, 3 * sizeof( float ) );
+   glVertexAttribBinding( 1, 0 );
+
+   glBindVertexArray( 0 );
 }
 
 // =======================================================================
 //
 ShaderProgram::~ShaderProgram()
 {
-   glDeleteShader( id_);
+   glDeleteShader( id_ );
+   id_ = 0;
+   glDeleteVertexArrays( 1, &vao_ );
+   vao_ = 0;
 }
 
 // =======================================================================
@@ -86,6 +103,7 @@ ShaderProgram::~ShaderProgram()
 void ShaderProgram::use()
 {
    glUseProgram( id_ );
+   glBindVertexArray( vao_ );
 }
 
 // =======================================================================
@@ -93,6 +111,7 @@ void ShaderProgram::use()
 void ShaderProgram::unuse()
 {
    glUseProgram( 0 );
+   glBindVertexArray( 0 );
 }
 
 }

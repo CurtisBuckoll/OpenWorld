@@ -47,6 +47,7 @@ public:
 
 private:
    GLuint id_;
+   GLuint vao_;
 };
 
 }

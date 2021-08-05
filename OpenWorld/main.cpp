@@ -60,29 +60,69 @@ int main( int argc, char** argv )
        0.0f,  0.5f, 0.0f,   0.5f, 1.0f    // top
    };
 
+   float vertices2[] = {
+      // positions          // texture coords
+      -1.0f, -1.0f, -0.5f,   0.0f, 0.0f,   // bottom left
+       0.0f, -1.0f, -0.5f,   1.0f, 0.0f,   // bottom right
+      -0.5f,  0.0f, -0.5f,   0.5f, 1.0f    // top
+   };
+
    // TODO: see to seperate buffer from layout: https://www.khronos.org/opengl/wiki/Vertex_Specification#Separate_attribute_format
-   unsigned int VAO;
-   glGenVertexArrays( 1, &VAO );
-   glBindVertexArray( VAO );
+   //unsigned int VAO;
+   //glGenVertexArrays( 1, &VAO );
+   //glBindVertexArray( VAO );
 
-   unsigned int VBO;
-   glGenBuffers( 1, &VBO );
-   glBindBuffer( GL_ARRAY_BUFFER, VBO );
+   //unsigned int VBO;
+   //glGenBuffers( 1, &VBO );
+   //glBindBuffer( GL_ARRAY_BUFFER, VBO );
+   //glBufferData( GL_ARRAY_BUFFER, sizeof( vertices ), vertices, GL_STATIC_DRAW );
+
+   //// position
+   //glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof( float ), (void*)0 );
+   //glEnableVertexAttribArray( 0 );
+
+   //// texture uv
+   //glVertexAttribPointer( 1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof( float ), (void*)(3 * sizeof( float )) );
+   //glEnableVertexAttribArray( 1 );
+
+   //glBindBuffer( GL_ARRAY_BUFFER, 0 );
+   //glBindVertexArray( 0 );
+
+   // ---------
+   unsigned int VBO1;
+   glGenBuffers( 1, &VBO1 );
+   glBindBuffer( GL_ARRAY_BUFFER, VBO1 );
    glBufferData( GL_ARRAY_BUFFER, sizeof( vertices ), vertices, GL_STATIC_DRAW );
-
-   // position
-   glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof( float ), (void*)0 );
-   glEnableVertexAttribArray( 0 );
-
-   // texture uv
-   glVertexAttribPointer( 1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof( float ), (void*)(3 * sizeof( float )) );
-   glEnableVertexAttribArray( 1 );
-
    glBindBuffer( GL_ARRAY_BUFFER, 0 );
-   glBindVertexArray( 0 );
+
+   unsigned int VBO2;
+   glGenBuffers( 1, &VBO2 );
+   glBindBuffer( GL_ARRAY_BUFFER, VBO2 );
+   glBufferData( GL_ARRAY_BUFFER, sizeof( vertices2 ), vertices2, GL_STATIC_DRAW );
+   glBindBuffer( GL_ARRAY_BUFFER, 0 );
+
+   //unsigned int VAO;
+   //glGenVertexArrays( 1, &VAO );
+   //glBindVertexArray( VAO );
+
+   ////glBindVertexBuffer( 0, VBO, 0, 5 * sizeof(float) );
+   ////glVertexBindingDivisor( 0, 0 );
+
+   //glEnableVertexAttribArray( 0 );
+   //glVertexAttribFormat( 0, 3, GL_FLOAT, GL_FALSE, 0 );
+   //glVertexAttribBinding( 0, 0 );
+   //glEnableVertexAttribArray( 1 );
+   //glVertexAttribFormat( 1, 2, GL_FLOAT, GL_FALSE, 3 * sizeof(float) );
+   //glVertexAttribBinding( 1, 0 );
+
+   ////glBindBuffer( GL_ARRAY_BUFFER, 0 );
+   //glBindVertexArray( 0 );
+
+   // ---------
 
    ow::core::ShaderProgram shaderProgram( "simpleShader_vs", "simpleShader_fs" );
 
+   int tmpCount = 0;
    while( true )
    {
       glClearDepth( 1.0 );
@@ -94,12 +134,21 @@ int main( int argc, char** argv )
 
       testTexture.bind();
 
-      glBindVertexArray( VAO );
+      //glBindVertexArray( VAO );
+      unsigned int vboToUse = VBO1;
+      if( tmpCount > 10000 )
+      {
+         vboToUse = VBO2;
+      }
+      glBindVertexBuffer( 0, vboToUse, 0, 5 * sizeof( float ) );
+      //glVertexBindingDivisor( 0, 0 );
+
       glDrawArrays( GL_TRIANGLES, 0, 3 );
 
       SDL_GL_SwapWindow( engine.window() );
 
       shaderProgram.unuse();
+      ++tmpCount;
    }
 
    // -------------------------------------
