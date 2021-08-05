@@ -12,7 +12,7 @@
 #include "core/graphics/gl/Texture.h"
 
 // temp -------------------------------------------------
-const char* vertexShaderSource = "#version 330 core\n"
+const char* vertexShaderSource = "#version 440 core\n"
    "layout (location = 0) in vec3 aPos;\n"
    "layout (location = 1) in vec2 aTexCoord;\n"
    "out vec2 texCoord;\n"
@@ -21,7 +21,7 @@ const char* vertexShaderSource = "#version 330 core\n"
    "   gl_Position = vec4(aPos, 1.0);\n"
    "   texCoord = aTexCoord;\n"
    "}\0";
-const char* fragmentShaderSource = "#version 330 core\n"
+const char* fragmentShaderSource = "#version 440 core\n"
    "uniform sampler2D ourTexture;\n"
    "in vec2 texCoord;\n"
    "out vec4 FragColor;\n"
@@ -80,6 +80,7 @@ int main( int argc, char** argv )
        0.0f,  0.5f, 0.0f,   0.5f, 1.0f    // top
    };
 
+   // TODO: see to seperate buffer from layout: https://www.khronos.org/opengl/wiki/Vertex_Specification#Separate_attribute_format
    unsigned int VAO;
    glGenVertexArrays( 1, &VAO );
    glBindVertexArray( VAO );
@@ -88,6 +89,8 @@ int main( int argc, char** argv )
    glGenBuffers( 1, &VBO );
    glBindBuffer( GL_ARRAY_BUFFER, VBO );
    glBufferData( GL_ARRAY_BUFFER, sizeof( vertices ), vertices, GL_STATIC_DRAW );
+
+   // position
    glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof( float ), (void*)0 );
    glEnableVertexAttribArray( 0 );
 
@@ -95,8 +98,8 @@ int main( int argc, char** argv )
    glVertexAttribPointer( 1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof( float ), (void*)(3 * sizeof( float )) );
    glEnableVertexAttribArray( 1 );
 
-   //glBindBuffer( GL_ARRAY_BUFFER, 0 );
-   //glBindVertexArray( 0 );
+   glBindBuffer( GL_ARRAY_BUFFER, 0 );
+   glBindVertexArray( 0 );
 
    ow::core::ShaderProgram shaderProgram( vertexShaderSource, fragmentShaderSource );
 
@@ -109,7 +112,7 @@ int main( int argc, char** argv )
 
       shaderProgram.use();
 
-      testTexture.bind( 0 );
+      testTexture.bind();
 
       glBindVertexArray( VAO );
       glDrawArrays( GL_TRIANGLES, 0, 3 );

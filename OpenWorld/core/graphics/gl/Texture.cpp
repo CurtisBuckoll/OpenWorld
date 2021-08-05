@@ -34,12 +34,25 @@ Texture::~Texture()
 {
    glDeleteTextures( 1, &id_ );
    id_ = 0;
+
+   // sampler
+   //glDeleteSamplers( 1, &samplerId_ );
+   //samplerId_ = 0;
+}
+
+void Texture::bind()
+{
+   glActiveTexture( GL_TEXTURE0 );
+   glBindTexture( GL_TEXTURE_2D, id_ );
 }
 
 void Texture::bind( uint32_t slot )
 {
-   glActiveTexture( GL_TEXTURE0 );
+   glActiveTexture( GL_TEXTURE0 + slot );
    glBindTexture( GL_TEXTURE_2D, id_ );
+
+   // sampler
+   //glBindSampler( slot, samplerId_ );
 }
 
 void Texture::update()
@@ -62,7 +75,7 @@ void Texture::init( uint8_t* data, bool genMips )
    // fix texture params for now
    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
-   glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+   glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR );
    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
 
    glTexImage2D( GL_TEXTURE_2D, 0, GL_RGB, width_, height_, 0, GL_RGB, GL_UNSIGNED_BYTE, data );
@@ -73,6 +86,10 @@ void Texture::init( uint8_t* data, bool genMips )
    }
 
    glBindTexture( GL_TEXTURE_2D, 0 );
+
+   // sampler
+   //glGenSamplers( 1, &samplerId_ );
+   //glSamplerParameter*(...);
 }
 
 }

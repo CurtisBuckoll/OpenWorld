@@ -22,6 +22,8 @@ public:
 
    void bind( uint32_t slot );
 
+   void bind(); // TODO: remove
+
    void update();
 
 private:
@@ -32,6 +34,14 @@ private:
    GLsizei width_       = 0;
    GLsizei height_      = 0;
    GLsizei numChannels_ = 0;
+
+   // sampler
+   // TODO: this seemed to work, but we probably want to create a Sampler class with instantions somewhere
+   // and then specify those when we call bind() on the texture. That way we can share/reuse samplers and not
+   // have textures/samplers 1:1.
+   // this would allow us to easily use something like: layout(binding = x) uniform sampler2D ourTexture
+   // see: https://stackoverflow.com/questions/19085956/what-is-the-difference-between-gltexparameter-and-glsamplerparameter
+   //GLuint samplerId_    = 0u;
 };
 
 }

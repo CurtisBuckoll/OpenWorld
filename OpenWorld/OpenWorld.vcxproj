@@ -154,6 +154,7 @@
     <ClCompile Include="core\graphics\gl\ShaderProgram.cpp" />
     <ClCompile Include="core\graphics\gl\Texture.cpp" />
     <ClCompile Include="core\Platform.cpp" />
+    <ClCompile Include="io\FileReader.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -162,6 +163,11 @@
     <ClInclude Include="core\graphics\gl\ShaderProgram.h" />
     <ClInclude Include="core\graphics\gl\Texture.h" />
     <ClInclude Include="core\Platform.h" />
+    <ClInclude Include="io\FileReader.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\simpleShader_fs.glsl" />
+    <None Include="shaders\simpleShader_vs.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

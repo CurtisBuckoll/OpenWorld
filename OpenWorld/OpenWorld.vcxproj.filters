@@ -14,6 +14,9 @@
     <ClCompile Include="core\graphics\gl\Texture.cpp">
       <Filter>core\graphics\gl</Filter>
     </ClCompile>
+    <ClCompile Include="io\FileReader.cpp">
+      <Filter>io</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="core">
@@ -30,6 +33,12 @@
     </Filter>
     <Filter Include="3rdparty\io">
       <UniqueIdentifier>{58d27974-093e-4453-bc35-37d3d24a914d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="io">
+      <UniqueIdentifier>{06a8cf4a-a59e-4f65-bae1-2b504b389ae4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders">
+      <UniqueIdentifier>{ed89ff66-45d4-4c46-8e63-a0fa68232eb6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -48,5 +57,16 @@
     <ClInclude Include="3rdparty\io\stb_image.h">
       <Filter>3rdparty\io</Filter>
     </ClInclude>
+    <ClInclude Include="io\FileReader.h">
+      <Filter>io</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\simpleShader_fs.glsl">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\simpleShader_vs.glsl">
+      <Filter>shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
