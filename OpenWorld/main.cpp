@@ -16,12 +16,46 @@
 struct Vertex
 {
    float pos[3];
+   float colour[3];
    float uv[2];
 };
 
+// TODO: test with this input layout.
+Vertex verticesQuad[] = {
+   // positions          // colors           // texture coords
+   { 0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f}, // top right
+   { 0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f}, // bottom right
+   {-0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f}, // bottom left
+   {-0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f}  // top left
+};
+
+Vertex verticesQuad2[] = {
+   // positions          // colors           // texture coords
+   { 0.0f,  0.0f, -0.5f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f}, // top right
+   { 0.0f, -1.0f, -0.5f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f}, // bottom right
+   {-1.0f, -1.0f, -0.5f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f}, // bottom left
+   {-1.0f,  0.0f, -0.5f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f}  // top left
+};
+
+//Vertex verticesQuad[] = {
+//    // positions         // texture coords
+//   { 0.5f,  0.5f, 0.0f,  1.0f, 1.0f}, // top right
+//   { 0.5f, -0.5f, 0.0f,  1.0f, 0.0f}, // bottom right
+//   {-0.5f, -0.5f, 0.0f,  0.0f, 0.0f}, // bottom left
+//   {-0.5f,  0.5f, 0.0f,  0.0f, 1.0f}  // top left
+//};
+
+uint32_t indicesQuad[] = {
+    0, 1, 3, // first triangle
+    1, 2, 3  // second triangle
+};
+
+
+
 static constexpr ow::core::AttribFormat inputLayout[] = {
    {0, 3, GL_FLOAT, GL_FALSE, 0},
-   {1, 2, GL_FLOAT, GL_FALSE, offsetof(Vertex, uv)}
+   {1, 3, GL_FLOAT, GL_FALSE, offsetof( Vertex, colour )},
+   {2, 2, GL_FLOAT, GL_FALSE, offsetof( Vertex, uv )}
 };
 
 // TODO: read from file
@@ -29,6 +63,8 @@ static constexpr ow::core::AttribFormat inputLayout[] = {
 static const int kWIN_WIDTH = 1000;
 static const int kWIN_HEIGHT = 600;
 
+// =======================================================================
+//
 int main( int argc, char** argv )
 {
    ow::core::Engine engine( kWIN_WIDTH, kWIN_HEIGHT );
@@ -38,33 +74,7 @@ int main( int argc, char** argv )
    // begin texture code
    // quick test for texture
    std::string texturePath = ow::core::workingDir() + "assets\\test\\wall.jpg";
-   ow::core::Texture testTexture( texturePath );
-
-
-   //float texCoords[] = {
-   // 0.0f, 0.0f,  // lower-left corner  
-   // 1.0f, 0.0f,  // lower-right corner
-   // 0.5f, 1.0f   // top-center corner
-   //};
-
-
-   // -------------------------------------
-   // end texture code
-
-   // -------------------------------------
-   // begin tri code
-   // vbo
-   //float vertices[] = { -0.5f, -0.5f, 0.0f,
-   //                      0.5f, -0.5f, 0.0f,
-   //                      0.0f,  0.5f, 0.0f };
-
-   //float vertices[] = {
-   //   // positions          // texture coords
-   //    0.5f,  0.5f, 0.0f,   1.0f, 1.0f,   // top right
-   //    0.5f, -0.5f, 0.0f,   1.0f, 0.0f,   // bottom right
-   //   -0.5f, -0.5f, 0.0f,   0.0f, 0.0f,   // bottom left
-   //   -0.5f,  0.5f, 0.0f,   0.0f, 1.0f    // top left 
-   //};
+   ow::core::Texture testTexture( texturePath, true );
 
    Vertex vertices[] = {
        // positions          // texture coords
@@ -73,6 +83,8 @@ int main( int argc, char** argv )
       { 0.0f,  0.5f, 0.0f,   0.5f, 1.0f}    // top
    };
 
+   uint32_t indices[] = { 0, 1, 2 };
+
    Vertex vertices2[] = {
       // positions          // texture coords
       {-1.0f, -1.0f, -0.5f,   0.5f, 0.0f},   // bottom left
@@ -80,62 +92,9 @@ int main( int argc, char** argv )
       {-0.5f,  0.0f, -0.5f,   0.5f, 0.5f}    // top
    };
 
-   // TODO: see to seperate buffer from layout: https://www.khronos.org/opengl/wiki/Vertex_Specification#Separate_attribute_format
-   //unsigned int VAO;
-   //glGenVertexArrays( 1, &VAO );
-   //glBindVertexArray( VAO );
-
-   //unsigned int VBO;
-   //glGenBuffers( 1, &VBO );
-   //glBindBuffer( GL_ARRAY_BUFFER, VBO );
-   //glBufferData( GL_ARRAY_BUFFER, sizeof( vertices ), vertices, GL_STATIC_DRAW );
-
-   //// position
-   //glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof( float ), (void*)0 );
-   //glEnableVertexAttribArray( 0 );
-
-   //// texture uv
-   //glVertexAttribPointer( 1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof( float ), (void*)(3 * sizeof( float )) );
-   //glEnableVertexAttribArray( 1 );
-
-   //glBindBuffer( GL_ARRAY_BUFFER, 0 );
-   //glBindVertexArray( 0 );
-
-   // ---------
-   //unsigned int VBO1;
-   //glGenBuffers( 1, &VBO1 );
-   //glBindBuffer( GL_ARRAY_BUFFER, VBO1 );
-   //glBufferData( GL_ARRAY_BUFFER, sizeof( vertices ), vertices, GL_STATIC_DRAW );
-   //glBindBuffer( GL_ARRAY_BUFFER, 0 );
-   ow::core::Buffer VBO1( ow::core::BufferUsage::VertexBufferObject, sizeof( vertices ), sizeof( Vertex ), vertices );
-
-
-   //unsigned int VBO2;
-   //glGenBuffers( 1, &VBO2 );
-   //glBindBuffer( GL_ARRAY_BUFFER, VBO2 );
-   //glBufferData( GL_ARRAY_BUFFER, sizeof( vertices2 ), vertices2, GL_STATIC_DRAW );
-   //glBindBuffer( GL_ARRAY_BUFFER, 0 );
-   ow::core::Buffer VBO2( ow::core::BufferUsage::VertexBufferObject, sizeof( vertices2 ), sizeof( Vertex ), vertices2 );
-
-   //unsigned int VAO;
-   //glGenVertexArrays( 1, &VAO );
-   //glBindVertexArray( VAO );
-
-   ////glBindVertexBuffer( 0, VBO, 0, 5 * sizeof(float) );
-   ////glVertexBindingDivisor( 0, 0 );
-
-   //glEnableVertexAttribArray( 0 );
-   //glVertexAttribFormat( 0, 3, GL_FLOAT, GL_FALSE, 0 );
-   //glVertexAttribBinding( 0, 0 );
-   //glEnableVertexAttribArray( 1 );
-   //glVertexAttribFormat( 1, 2, GL_FLOAT, GL_FALSE, 3 * sizeof(float) );
-   //glVertexAttribBinding( 1, 0 );
-
-   ////glBindBuffer( GL_ARRAY_BUFFER, 0 );
-   //glBindVertexArray( 0 );
-
-   // ---------
-
+   ow::core::Buffer VBO1( ow::core::BufferUsage::VertexBufferObject, sizeof( verticesQuad ), sizeof( Vertex ), verticesQuad );
+   ow::core::Buffer VBO2( ow::core::BufferUsage::VertexBufferObject, sizeof( verticesQuad2 ), sizeof( Vertex ), verticesQuad2 );
+   ow::core::Buffer EBO( ow::core::BufferUsage::ElementBufferObject, sizeof( indicesQuad ), sizeof( uint32_t ), indicesQuad );
    ow::core::ShaderProgram shaderProgram( "simpleShader_vs",
                                           "simpleShader_fs",
                                           inputLayout,
@@ -155,30 +114,25 @@ int main( int argc, char** argv )
 
       if(( tmpCount % 1000) == 0 )
       {
-         //vboToUse = VBO1;
          VBO1.bind( 0 );
       }
       else if( (tmpCount % 1000) == 1000 / 2 )
       {
-         //vboToUse = VBO2;
          VBO2.bind( 0 );
       }
-      //glBindVertexBuffer( 0, vboToUse, 0, 5 * sizeof( float ) );
-      //glVertexBindingDivisor( 0, 0 ); // TODO: do we need this??
+      EBO.bind();
 
-
-      glDrawArrays( GL_TRIANGLES, 0, 3 );
+      glDrawElements( GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0 );
+      //glDrawArrays( GL_TRIANGLES, 0, 3 );
 
       SDL_GL_SwapWindow( engine.window() );
 
+      EBO.unbind();
       VBO1.unbind();
 
       shaderProgram.unuse();
       ++tmpCount;
    }
-
-   // -------------------------------------
-   // end tri code
 
    //engine.loop();
 

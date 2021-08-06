@@ -13,6 +13,7 @@ namespace core
 enum class BufferUsage
 {
    VertexBufferObject,
+   ElementBufferObject,
    COUNT
 };
 
@@ -42,7 +43,7 @@ public:
 
    // -----------------------------------------------------------------
    //
-   void bind( uint32_t slot, uint32_t offset = 0 );
+   void bind( uint32_t slot = 0, uint32_t offset = 0 );
 
    // -----------------------------------------------------------------
    //
