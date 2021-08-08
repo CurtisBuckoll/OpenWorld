@@ -5,6 +5,8 @@
 #include <memory>
 #include <string>
 
+#include "Sampler.h"
+
 namespace ow
 {
 namespace core
@@ -22,9 +24,11 @@ public:
    Texture( const std::string& filepath, bool genMips = true );
    ~Texture();
 
-   void bind( uint32_t slot );
+   void bind( uint32_t slot, const std::shared_ptr<Sampler>& sampler );
 
-   void bind(); // TODO: remove
+   //void bind(); // TODO: remove
+
+   void unbind();
 
    void update();
 
@@ -32,7 +36,7 @@ private:
 
    void init( uint8_t* data, bool genMips );
 
-   GLuint id_           = 0u;
+   GLuint  id_          = 0u;
    GLsizei width_       = 0;
    GLsizei height_      = 0;
    GLsizei numChannels_ = 0;

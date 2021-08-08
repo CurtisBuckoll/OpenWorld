@@ -53,9 +53,9 @@ private:
 
    // -----------------------------------------------------------------
    //
-   GLuint      id_ = 0;
+   GLuint      id_         = 0;
    BufferUsage usage_;
-   uint32_t    byteStride_;
+   uint32_t    byteStride_ = 0;
 };
 
 }

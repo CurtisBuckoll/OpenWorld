@@ -20,7 +20,6 @@ struct Vertex
    float uv[2];
 };
 
-// TODO: test with this input layout.
 Vertex verticesQuad[] = {
    // positions          // colors           // texture coords
    { 0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f}, // top right
@@ -51,7 +50,6 @@ uint32_t indicesQuad[] = {
 };
 
 
-
 static constexpr ow::core::AttribFormat inputLayout[] = {
    {0, 3, GL_FLOAT, GL_FALSE, 0},
    {1, 3, GL_FLOAT, GL_FALSE, offsetof( Vertex, colour )},
@@ -75,6 +73,8 @@ int main( int argc, char** argv )
    // quick test for texture
    std::string texturePath = ow::core::workingDir() + "assets\\test\\wall.jpg";
    ow::core::Texture testTexture( texturePath, true );
+   texturePath = ow::core::workingDir() + "assets\\test\\awesomeface.png";
+   ow::core::Texture testTexture2( texturePath, true );
 
    Vertex vertices[] = {
        // positions          // texture coords
@@ -100,6 +100,8 @@ int main( int argc, char** argv )
                                           inputLayout,
                                           sizeof( inputLayout ) / sizeof( ow::core::AttribFormat ) );
 
+   auto sampler = std::make_shared<ow::core::Sampler>( ow::core::SamplerType::LinFilterLinMips );
+
    int tmpCount = 0;
    while( true )
    {
@@ -110,7 +112,8 @@ int main( int argc, char** argv )
 
       shaderProgram.use();
 
-      testTexture.bind();
+      testTexture.bind( 0, sampler );
+      testTexture2.bind( 1, sampler );
 
       if(( tmpCount % 1000) == 0 )
       {

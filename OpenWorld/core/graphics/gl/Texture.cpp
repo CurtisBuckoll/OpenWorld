@@ -40,24 +40,34 @@ Texture::~Texture()
    //samplerId_ = 0;
 }
 
-void Texture::bind()
-{
-   glActiveTexture( GL_TEXTURE0 );
-   glBindTexture( GL_TEXTURE_2D, id_ );
-}
+//void Texture::bind()
+//{
+//   glActiveTexture( GL_TEXTURE0 );
+//   glBindTexture( GL_TEXTURE_2D, id_ );
+//}
 
-void Texture::bind( uint32_t slot )
+void Texture::bind( uint32_t slot, const std::shared_ptr<Sampler>& sampler )
 {
    glActiveTexture( GL_TEXTURE0 + slot );
    glBindTexture( GL_TEXTURE_2D, id_ );
 
    // sampler
+   // TODO: we could make these samplers Global in some Engine.cpp, or something like
+   // that. Then we pass the sampler enum in to the bind() here instead of the actual sampler.
+   // not sure yet.. maybe we want to move all bind calls to Engine.cpp (or Graphics.cpp)?
+   sampler->bind( slot );
+
    //glBindSampler( slot, samplerId_ );
+}
+
+void Texture::unbind()
+{
+   // not sure we really need this, so maybe do nothing for now
 }
 
 void Texture::update()
 {
-
+   // TODO
 }
 
 void Texture::init( uint8_t* data, bool genMips )
@@ -78,7 +88,9 @@ void Texture::init( uint8_t* data, bool genMips )
    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR );
    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
 
-   glTexImage2D( GL_TEXTURE_2D, 0, GL_RGB, width_, height_, 0, GL_RGB, GL_UNSIGNED_BYTE, data );
+   auto format = numChannels_ == 3 ? GL_RGB : GL_RGBA; // TODO: make more robust
+
+   glTexImage2D( GL_TEXTURE_2D, 0, format, width_, height_, 0, format, GL_UNSIGNED_BYTE, data );
 
    if( genMips )
    {

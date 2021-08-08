@@ -20,6 +20,9 @@
     <ClCompile Include="core\graphics\gl\Buffer.cpp">
       <Filter>core\graphics\gl</Filter>
     </ClCompile>
+    <ClCompile Include="core\graphics\gl\Sampler.cpp">
+      <Filter>core\graphics\gl</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="core">
@@ -64,6 +67,9 @@
       <Filter>io</Filter>
     </ClInclude>
     <ClInclude Include="core\graphics\gl\Buffer.h">
+      <Filter>core\graphics\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="core\graphics\gl\Sampler.h">
       <Filter>core\graphics\gl</Filter>
     </ClInclude>
   </ItemGroup>
