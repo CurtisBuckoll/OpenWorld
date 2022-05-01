@@ -66,6 +66,8 @@ public:
       glBindSampler( curSlot_, id_ );
    }
 
+   // -----------------------------------------------------------------
+   //
    void unbind()
    {
       // do we really need this? not sure if this makes sense really.

@@ -12,6 +12,8 @@
 #include "core/graphics/gl/Texture.h"
 #include "core/graphics/gl/Buffer.h"
 
+#include "io/Logging.h"
+
 // temporary
 struct Vertex
 {
@@ -65,6 +67,10 @@ static const int kWIN_HEIGHT = 600;
 //
 int main( int argc, char** argv )
 {
+  OW_LOG( INFO, "A MSG" );
+  OW_LOG( WARN, "A MSG AND ARG: %d", 1 );
+  OW_LOG( ERRO, "A MSG AND TWO ARG: %d, %d", 1, 2 );
+
    ow::core::Engine engine( kWIN_WIDTH, kWIN_HEIGHT );
    engine.init();
 
@@ -73,7 +79,7 @@ int main( int argc, char** argv )
    // quick test for texture
    std::string texturePath = ow::core::workingDir() + "assets\\test\\wall.jpg";
    ow::core::Texture testTexture( texturePath, true );
-   texturePath = ow::core::workingDir() + "assets\\test\\awesomeface.png";
+   texturePath = ow::core::workingDir() + "assets\\test\\container.jpg";
    ow::core::Texture testTexture2( texturePath, true );
 
    Vertex vertices[] = {
@@ -102,6 +108,8 @@ int main( int argc, char** argv )
 
    auto sampler = std::make_shared<ow::core::Sampler>( ow::core::SamplerType::LinFilterLinMips );
 
+   OW_LOG( INFO, "Starting main loop" );
+
    int tmpCount = 0;
    while( true )
    {
@@ -115,11 +123,11 @@ int main( int argc, char** argv )
       testTexture.bind( 0, sampler );
       testTexture2.bind( 1, sampler );
 
-      if(( tmpCount % 1000) == 0 )
+      if(( tmpCount % 3000) == 0 )
       {
          VBO1.bind( 0 );
       }
-      else if( (tmpCount % 1000) == 1000 / 2 )
+      else if( (tmpCount % 3000) == 3000 / 2 )
       {
          VBO2.bind( 0 );
       }

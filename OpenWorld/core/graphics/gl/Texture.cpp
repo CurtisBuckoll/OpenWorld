@@ -4,7 +4,7 @@
 
 #include "3rdparty/io/stb_image.h"
 
-#include <iostream>
+#include "io/Logging.h"
 
 namespace ow
 {
@@ -74,8 +74,7 @@ void Texture::init( uint8_t* data, bool genMips )
 {
    if( !data )
    {
-      // TODO: error properly using errors class/logs
-      std::cout << "(LOG) ERROR: Null texture data in Texture::init()" << std::endl;
+      OW_LOG( ERRO, "(LOG) ERROR: Null texture data in Texture::init()" );
       exit( 0 );
    }
 
