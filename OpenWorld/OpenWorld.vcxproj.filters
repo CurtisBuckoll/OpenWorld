@@ -23,6 +23,9 @@
     <ClCompile Include="core\graphics\gl\Sampler.cpp">
       <Filter>core\graphics\gl</Filter>
     </ClCompile>
+    <ClCompile Include="core\graphics\gl\Framebuffer.cpp">
+      <Filter>core\graphics\gl</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="core">
@@ -74,6 +77,9 @@
     </ClInclude>
     <ClInclude Include="io\Logging.h">
       <Filter>io</Filter>
+    </ClInclude>
+    <ClInclude Include="core\graphics\gl\Framebuffer.h">
+      <Filter>core\graphics\gl</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

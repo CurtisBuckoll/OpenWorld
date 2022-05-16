@@ -11,31 +11,56 @@ namespace ow
 {
 namespace core
 {
+
+// =======================================================================
+//
 class Texture
 {
 public:
+   // -----------------------------------------------------------------
+   //
    Texture() = delete;
    Texture( const Texture& ) = delete;
    Texture& operator=( const Texture& ) = delete;
    Texture( const Texture&& ) = delete;
    Texture& operator=( const Texture&& ) = delete;
 
-   //Texture( const std::shared_ptr<uint8_t>& data );
-   Texture( const std::string& filepath, bool genMips = true );
+   // -----------------------------------------------------------------
+   //
+   Texture( const std::string& filepath, 
+            bool genMips = true );
+   Texture( uint32_t width, 
+            uint32_t height, 
+            bool isDepth, 
+            bool genMips = false );
    ~Texture();
 
+   // -----------------------------------------------------------------
+   //
    void bind( uint32_t slot, const std::shared_ptr<Sampler>& sampler );
 
-   //void bind(); // TODO: remove
-
+   // -----------------------------------------------------------------
+   //
    void unbind();
 
+   // -----------------------------------------------------------------
+   //
    void update();
+
+   // -----------------------------------------------------------------
+   //
+   inline GLuint id() { return id_; }
 
 private:
 
-   void init( uint8_t* data, bool genMips );
+   // -----------------------------------------------------------------
+   //
+   void init( uint8_t* data, 
+              bool genMips, 
+              bool isDepthTex );
 
+   // -----------------------------------------------------------------
+   //
    GLuint  id_          = 0u;
    GLsizei width_       = 0;
    GLsizei height_      = 0;

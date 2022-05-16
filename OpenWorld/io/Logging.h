@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <time.h>
 
+// =======================================================================
+//
 static const char* kFmt = "%s%s%s\n";
 static const char* kFmtTime = "%m-%d-%H:%M:%S\t";
 
@@ -22,6 +24,8 @@ static const char* LOGLEVELSTR[] = {
   "[ERROR]\t",
 };
 
+// -----------------------------------------------------------------
+//
 static void time_stamp( char* const buffer ) {
   time_t now = time(0);
   tm timeinfo;
@@ -29,6 +33,8 @@ static void time_stamp( char* const buffer ) {
   strftime(buffer, kBufferSize, kFmtTime, &timeinfo);
 }
 
+// -----------------------------------------------------------------
+//
 #define OW_LOG( level, log_str, ... ) do { \
   char msg[kBufferSize]; \
   time_stamp(msg); \

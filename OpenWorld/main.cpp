@@ -11,6 +11,7 @@
 // temp
 #include "core/graphics/gl/Texture.h"
 #include "core/graphics/gl/Buffer.h"
+#include "core/graphics/gl/Framebuffer.h"
 
 #include "io/Logging.h"
 
@@ -108,11 +109,15 @@ int main( int argc, char** argv )
 
    auto sampler = std::make_shared<ow::core::Sampler>( ow::core::SamplerType::LinFilterLinMips );
 
+   // test making a framebuffer
+   auto fb = std::make_shared<ow::Framebuffer>(kWIN_WIDTH, kWIN_HEIGHT);
+
    OW_LOG( INFO, "Starting main loop" );
 
    int tmpCount = 0;
    while( true )
    {
+      //fb->bind();
       glClearDepth( 1.0 );
       glClearColor( 0.2f, 0.3f, 0.3f, 1.0f );
 
