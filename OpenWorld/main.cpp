@@ -12,6 +12,7 @@
 #include "core/graphics/gl/Texture.h"
 #include "core/graphics/gl/Buffer.h"
 #include "core/graphics/gl/Framebuffer.h"
+#include "model/Mesh.h"
 
 #include "io/Logging.h"
 
@@ -144,7 +145,7 @@ int main( int argc, char** argv )
       SDL_GL_SwapWindow( engine.window() );
 
       EBO.unbind();
-      VBO1.unbind();
+      //VBO1.unbind();
 
       shaderProgram.unuse();
       ++tmpCount;

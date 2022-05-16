@@ -17,6 +17,8 @@ enum class BufferUsage
    COUNT
 };
 
+// =======================================================================
+//
 class Buffer
 {
 public:

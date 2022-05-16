@@ -26,6 +26,9 @@
     <ClCompile Include="core\graphics\gl\Framebuffer.cpp">
       <Filter>core\graphics\gl</Filter>
     </ClCompile>
+    <ClCompile Include="model\Mesh.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="core">
@@ -48,6 +51,9 @@
     </Filter>
     <Filter Include="shaders">
       <UniqueIdentifier>{ed89ff66-45d4-4c46-8e63-a0fa68232eb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Model">
+      <UniqueIdentifier>{8758d004-2f90-48c5-942c-664c2b0bcedb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -80,6 +86,9 @@
     </ClInclude>
     <ClInclude Include="core\graphics\gl\Framebuffer.h">
       <Filter>core\graphics\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="model\Mesh.h">
+      <Filter>Model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

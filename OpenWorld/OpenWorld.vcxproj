@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -160,6 +160,7 @@
     <ClCompile Include="core\Platform.cpp" />
     <ClCompile Include="io\FileReader.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="model\Mesh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rdparty\io\stb_image.h" />
@@ -172,6 +173,7 @@
     <ClInclude Include="core\Platform.h" />
     <ClInclude Include="io\FileReader.h" />
     <ClInclude Include="io\Logging.h" />
+    <ClInclude Include="model\Mesh.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\simpleShader_fs.glsl" />
