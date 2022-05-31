@@ -113,6 +113,24 @@ int main( int argc, char** argv )
    // test making a framebuffer
    auto fb = std::make_shared<ow::Framebuffer>(kWIN_WIDTH, kWIN_HEIGHT);
 
+   // quick test of mesh, basically let's see if we can replace one of the above with a mesh implementation
+   // might want to undo this later, or see if we can save this unit test code in a better way
+
+   std::vector<ow::Vertex> owTestVertices = {
+      // positions          // colors           // texture coords
+      { glm::vec3{0.0f,  0.0f, -0.5f}, glm::vec3{1.0f, 0.0f, 0.0f}, glm::vec2{1.0f, 1.0f} }, // top right
+      { glm::vec3{0.0f, -1.0f, -0.5f}, glm::vec3{0.0f, 1.0f, 0.0f}, glm::vec2{1.0f, 0.0f} }, // bottom right
+      { glm::vec3{-1.0f, -1.0f, -0.5f},   glm::vec3{0.0f, 0.0f, 1.0f},   glm::vec2{0.0f, 0.0f}}, // bottom left
+      { glm::vec3{-1.0f,  0.0f, -0.5f},   glm::vec3{1.0f, 1.0f, 0.0f},   glm::vec2{0.0f, 1.0f}}  // top left
+   };
+
+   std::vector<uint32_t> owTestIndices = {
+      0, 1, 3, // first triangle
+      1, 2, 3  // second triangle
+   };
+
+   auto testMesh = std::make_shared<ow::Mesh>( owTestVertices, owTestIndices, std::vector<ow::TypedTexture>{} );
+
    OW_LOG( INFO, "Starting main loop" );
 
    int tmpCount = 0;
@@ -129,17 +147,19 @@ int main( int argc, char** argv )
       testTexture.bind( 0, sampler );
       testTexture2.bind( 1, sampler );
 
-      if(( tmpCount % 3000) == 0 )
-      {
-         VBO1.bind( 0 );
-      }
-      else if( (tmpCount % 3000) == 3000 / 2 )
-      {
-         VBO2.bind( 0 );
-      }
-      EBO.bind();
+      testMesh->draw();
 
-      glDrawElements( GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0 );
+      //if(( tmpCount % 3000) == 0 )
+      //{
+      //   VBO1.bind( 0 );
+      //}
+      //else if( (tmpCount % 3000) == 3000 / 2 )
+      //{
+      //   VBO2.bind( 0 );
+      //}
+      //EBO.bind();
+
+      //glDrawElements( GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0 );
       //glDrawArrays( GL_TRIANGLES, 0, 3 );
 
       SDL_GL_SwapWindow( engine.window() );

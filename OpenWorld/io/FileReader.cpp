@@ -44,7 +44,7 @@ void FileReader::openFile( const std::string& absPath, bool isBinary )
 
    if( !f_.is_open() )
    {
-      OW_LOG( ERRO, "ERROR: Failed to load shader file : %s", absPath);
+      OW_LOG( ERRO, "Failed to load file : %s", absPath);
       return;
    }
 

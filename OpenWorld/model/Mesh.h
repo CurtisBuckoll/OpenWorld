@@ -55,7 +55,7 @@ public:
       // TODO: also test by passing some dummy vertex/index data from main to sanity check current set up
 
       // bind the vbo & ebo, for now fixed at slot 0 wtih no offset
-      vbo_->bind( 0 );
+      vbo_->bind();
       ebo_->bind();
       glDrawElements( GL_TRIANGLES, indices_.size(), GL_UNSIGNED_INT, 0);
    }
