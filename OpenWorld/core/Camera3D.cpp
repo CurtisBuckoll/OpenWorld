@@ -1,64 +1,50 @@
 #include "Camera3D.h"
+
 #include <SDL/SDL.h>
+
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <GLM/gtc/type_ptr.hpp>
-#include <iostream>
 
-
-// Calculates the front vector from the Camera's (updated) Eular Angles
+// =======================================================================
+//
 void Camera3D::updateCameraVectors()
 {
-	// Calculate the new Front vector
 	glm::vec3 front;
-	front.x = cos( glm::radians( _yaw ) ) * cos( glm::radians( _pitch ) );
-	front.y = sin( glm::radians( _pitch ) );
-	front.z = sin( glm::radians( _yaw ) ) * cos( glm::radians( _pitch ) );
-	_front = glm::normalize( front );
-
-	// Re-calculate the Right and Up vector
-	_right = glm::normalize( glm::cross( _front, _worldUp ) );
-	_up = glm::normalize( glm::cross( _right, _front ) );
+	front.x = cos( glm::radians( yaw_ ) ) * cos( glm::radians( pitch_ ) );
+	front.y = sin( glm::radians( pitch_ ) );
+	front.z = sin( glm::radians( yaw_ ) ) * cos( glm::radians( pitch_ ) );
+	front_ = glm::normalize( front );
+	right_ = glm::normalize( glm::cross( front_, up_ ) );
 }
 
-
-// Default Constructor
-Camera3D::Camera3D() :
-	_front( glm::vec3( 0.0f, 0.0f, -1.0f ) ),
-	_movementSpeed( SPEED ),
-	_mouseSensitivity( SENSITIVTY ),
-	_zoom( ZOOM )
+// =======================================================================
+//
+void Camera3D::init( const glm::vec3& position, 
+							const glm::vec3& up )
 {
-	// Empty
-}
-
-
-// Initialise camera variables
-void Camera3D::init( glm::vec3 position, glm::vec3 up, GLfloat yaw, GLfloat pitch )
-{
-	_position = position;
-	_worldUp = up;
-	_yaw = yaw;
-	_pitch = pitch;
+	position_ = position;
+	up_ = up;
 	updateCameraVectors();
 }
 
-
-// Returns the view matrix calculated using Eular Angles and the LookAt Matrix
+// =======================================================================
+//
 glm::mat4 Camera3D::viewMatrix() const
 {
-	return glm::lookAt( _position, _position + _front, _up );
+	return glm::lookAt( position_, position_ + front_, up_ );
 }
 
-
+// =======================================================================
+//
 void Camera3D::processInput( InputState& inputState )
 {
 	processMouse( inputState.mouseState() );
 	processKeyboard( inputState.keys() );
 }
 
-
-// Processes input received from any keyboard-like input system.
+// =======================================================================
+//
 void Camera3D::processKeyboard( const bool* keys )
 {
 	static float deltaTime = 0.0f;
@@ -68,40 +54,39 @@ void Camera3D::processKeyboard( const bool* keys )
 	deltaTime = currentFrame - lastFrame;
 	lastFrame = currentFrame;
 
-	GLfloat velocity = _movementSpeed * deltaTime;
+	float velocity = movementSpeed_ * deltaTime;
 	if( keys[SDLK_w] )
 	{
-		_position += _front * velocity;
+		position_ += front_ * velocity;
 	}
 	if( keys[SDLK_s] )
 	{
-			_position -= _front * velocity;
+			position_ -= front_ * velocity;
 	}
 	if( keys[SDLK_a] )
 	{
-		_position -= _right * velocity;
+		position_ -= right_ * velocity;
 	}
 	if( keys[SDLK_d] )
 	{
-		_position += _right * velocity;
+		position_ += right_ * velocity;
 	}
 }
 
-
-// Processes input received from a mouse input system. Expects the offset value in both the x and y direction.
+// =======================================================================
+//
 void Camera3D::processMouse( const MouseState* pos )
 {
-	static GLfloat lastX = 0;
-	static GLfloat lastY = 0;
-	GLfloat xoffset;
-	GLfloat yoffset;
+	static float lastX = 0;
+	static float lastY = 0;
+	float xoffset;
+	float yoffset;
 
-	static bool firstMouse = true;
-	if( firstMouse )
+	if( firstMouse_ )
 	{
 		lastX = pos->x_;
 		lastY = pos->y_;
-		firstMouse = false;
+		firstMouse_ = false;
 		return;
 	}
 
@@ -109,24 +94,17 @@ void Camera3D::processMouse( const MouseState* pos )
 	yoffset = lastY - pos->y_;
 	lastX = pos->x_;
 	lastY = pos->y_;
-	xoffset *= _mouseSensitivity;
-	yoffset *= _mouseSensitivity;
-	_yaw += xoffset;
-	_pitch += yoffset;
+	yaw_ += xoffset * mouseSensitivity_;
+	pitch_ += yoffset * mouseSensitivity_;
 
-	if( _pitch > 89.0f )
+	if( pitch_ > 89.0f )
 	{
-		_pitch = 89.0f;
+		pitch_ = 89.0f;
 	}
-	if( _pitch < -89.0f )
+	if( pitch_ < -89.0f )
 	{
-		_pitch = -89.0f;
+		pitch_ = -89.0f;
 	}
 
 	updateCameraVectors();
-}
-
-glm::vec3 Camera3D::position()
-{
-	return _position;
 }
