@@ -30,6 +30,10 @@ public:
 
 	// -----------------------------------------------------------------
 	//
+	glm::vec3 viewPosition() const { return position_; }
+
+	// -----------------------------------------------------------------
+	//
 	void processInput( InputState& inputState );
 
 private:
