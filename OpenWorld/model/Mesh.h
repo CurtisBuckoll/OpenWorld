@@ -65,14 +65,14 @@ private:
    void init( const std::vector<Vertex>& vertices,
               const std::vector<uint32_t>& indices )
    {
-      vbo_ = std::make_shared<ow::core::Buffer>( core::BufferUsage::VertexBufferObject, 
-                                                 sizeof( Vertex ) * vertices.size(), 
-                                                 sizeof( Vertex ), 
-                                                 (void*)vertices.data() );
-      ebo_ = std::make_shared<ow::core::Buffer>( ow::core::BufferUsage::ElementBufferObject, 
-                                                 sizeof( uint32_t ) * indices.size(),
-                                                 sizeof( uint32_t ), 
-                                                 (void*)indices.data() );
+      vbo_ = std::make_shared<ow::Buffer>( BufferUsage::VertexBuffer,
+                                           sizeof( Vertex ) * vertices.size(),
+                                           sizeof( Vertex ),
+                                           (void*)vertices.data() );
+      ebo_ = std::make_shared<ow::Buffer>( BufferUsage::ElementBuffer,
+                                           sizeof( uint32_t ) * indices.size(),
+                                           sizeof( uint32_t ),
+                                           (void*)indices.data() );
    }
 
    // TODO: we don't really need to store these. maybe do so for now and
@@ -87,7 +87,7 @@ private:
    std::vector<std::shared_ptr<ow::core::Texture>> diffuseTextures_;
    std::vector<std::shared_ptr<ow::core::Texture>> specularTextures_;
 
-   std::shared_ptr<core::Buffer> vbo_;
-   std::shared_ptr<core::Buffer> ebo_;
+   std::shared_ptr<Buffer> vbo_;
+   std::shared_ptr<Buffer> ebo_;
 };
 }

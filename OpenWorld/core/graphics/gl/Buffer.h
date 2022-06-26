@@ -7,14 +7,13 @@
 
 namespace ow
 {
-namespace core
-{
 
 enum class BufferUsage
 {
-   VertexBufferObject,
-   ElementBufferObject,
-   COUNT
+   VertexBuffer,
+   ElementBuffer,
+   UniformBuffer,
+   BufferUsage_COUNT
 };
 
 // =======================================================================
@@ -39,8 +38,11 @@ public:
    //
    ~Buffer();
 
-   // TODO:
-   // void update(...);
+   // -----------------------------------------------------------------
+   //
+   void update( void* data, uint32_t offset, uint32_t sizeBytes );
+
+   // TODO
    // void clear(...);
 
    // -----------------------------------------------------------------
@@ -55,10 +57,9 @@ private:
 
    // -----------------------------------------------------------------
    //
-   GLuint      id_         = 0;
    BufferUsage usage_;
+   GLuint      id_         = 0;
    uint32_t    byteStride_ = 0;
 };
 
-}
 }

@@ -100,9 +100,9 @@ int main( int argc, char** argv )
       {-0.5f,  0.0f, -0.5f,   0.5f, 0.5f}    // top
    };
 
-   ow::core::Buffer VBO1( ow::core::BufferUsage::VertexBufferObject, sizeof( verticesQuad ), sizeof( Vertex ), verticesQuad );
-   ow::core::Buffer VBO2( ow::core::BufferUsage::VertexBufferObject, sizeof( verticesQuad2 ), sizeof( Vertex ), verticesQuad2 );
-   ow::core::Buffer EBO( ow::core::BufferUsage::ElementBufferObject, sizeof( indicesQuad ), sizeof( uint32_t ), indicesQuad );
+   ow::Buffer VBO1( ow::BufferUsage::VertexBuffer, sizeof( verticesQuad ), sizeof( Vertex ), verticesQuad );
+   ow::Buffer VBO2( ow::BufferUsage::VertexBuffer, sizeof( verticesQuad2 ), sizeof( Vertex ), verticesQuad2 );
+   ow::Buffer EBO( ow::BufferUsage::ElementBuffer, sizeof( indicesQuad ), sizeof( uint32_t ), indicesQuad );
    ow::core::ShaderProgram shaderProgram( "simpleShader_vs",
                                           "simpleShader_fs",
                                           inputLayout,
@@ -140,7 +140,7 @@ int main( int argc, char** argv )
    {
       //fb->bind();
       glClearDepth( 1.0 );
-      glClearColor( 0.2f, 0.3f, 0.3f, 1.0f );
+      glClearColor( 0.2f, 0.3f, 0.5f, 1.0f );
 
       glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 

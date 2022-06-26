@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Camera3D.cpp" />
     <ClCompile Include="core\Engine.cpp" />
     <ClCompile Include="core\graphics\gl\Buffer.cpp" />
     <ClCompile Include="core\graphics\gl\Framebuffer.cpp" />
@@ -165,6 +166,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rdparty\io\stb_image.h" />
+    <ClInclude Include="Camera3D.h" />
     <ClInclude Include="core\Engine.h" />
     <ClInclude Include="core\graphics\gl\Buffer.h" />
     <ClInclude Include="core\graphics\gl\Framebuffer.h" />
