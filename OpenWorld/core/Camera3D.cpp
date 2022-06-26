@@ -34,9 +34,8 @@ Camera3D::Camera3D() :
 
 
 // Initialise camera variables
-void Camera3D::Init( CAMERA_MODE mode, glm::vec3 position, glm::vec3 up, GLfloat yaw, GLfloat pitch )
+void Camera3D::Init( glm::vec3 position, glm::vec3 up, GLfloat yaw, GLfloat pitch )
 {
-	_mode = mode;
 	_position = position;
 	_worldUp = up;
 	_yaw = yaw;
@@ -65,27 +64,11 @@ void Camera3D::ProcessKeyboard( bool* keys )
 	GLfloat velocity = _movementSpeed * deltaTime;
 	if( keys[SDLK_w] )
 	{
-		if( _mode == CAMERA_MODE::WALK )
-		{
-			_position.x += _front.x * velocity;
-			_position.z += _front.z * velocity;
-		}
-		else
-		{
-			_position += _front * velocity;
-		}
+		_position += _front * velocity;
 	}
 	if( keys[SDLK_s] )
 	{
-		if( _mode == CAMERA_MODE::WALK )
-		{
-			_position.x -= _front.x * velocity;
-			_position.z -= _front.z * velocity;
-		}
-		else
-		{
 			_position -= _front * velocity;
-		}
 	}
 	if( keys[SDLK_a] )
 	{
@@ -94,24 +77,6 @@ void Camera3D::ProcessKeyboard( bool* keys )
 	if( keys[SDLK_d] )
 	{
 		_position += _right * velocity;
-	}
-
-	static bool toggle = true;
-	if( keys[SDLK_m] && toggle )
-	{
-		if( _mode == CAMERA_MODE::FLY )
-		{
-			_mode = CAMERA_MODE::WALK;
-		}
-		else
-		{
-			_mode = CAMERA_MODE::FLY;
-		}
-		toggle = false;
-	}
-	if( !keys[SDLK_m] )
-	{
-		toggle = true;
 	}
 }
 

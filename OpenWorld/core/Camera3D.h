@@ -15,14 +15,6 @@ const GLfloat SPEED = 0.001f;
 const GLfloat SENSITIVTY = 0.35f;
 const GLfloat ZOOM = 45.0f;
 
-
-enum class CAMERA_MODE
-{
-	FLY = 0,
-	WALK
-};
-
-
 // An abstract camera class that processes input and calculates the corresponding Eular Angles, Vectors and Matrices for use in OpenGL
 class Camera3D
 {
@@ -40,7 +32,6 @@ private:
 	GLfloat _movementSpeed;
 	GLfloat _mouseSensitivity;
 	GLfloat _zoom;
-	CAMERA_MODE _mode;
 
 	// Calculates the front vector from the Camera's (updated) Eular Angles
 	void updateCameraVectors();
@@ -49,7 +40,7 @@ public:
 	Camera3D();
 
 	// Initialise
-	void Init( CAMERA_MODE mode = CAMERA_MODE::FLY, glm::vec3 position = glm::vec3( 0.0f, 0.0f, 1.5f ), glm::vec3 up = glm::vec3( 0.0f, 1.0f, 0.0f ), GLfloat yaw = YAW, GLfloat pitch = PITCH );
+	void Init(glm::vec3 position = glm::vec3( 0.0f, 0.0f, 1.5f ), glm::vec3 up = glm::vec3( 0.0f, 1.0f, 0.0f ), GLfloat yaw = YAW, GLfloat pitch = PITCH );
 
 	// Returns the view matrix calculated using Eular Angles and the LookAt Matrix
 	glm::mat4 GetViewMatrix();

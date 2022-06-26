@@ -7,7 +7,7 @@
 
 InputState::InputState()
 {
-	std::memset( keymap, 0, sizeof(keymap) );
+	std::memset( keymap_.data(), 0, sizeof(keymap_));
 }
 
 bool InputState::pollForEvents()
@@ -21,11 +21,11 @@ bool InputState::pollForEvents()
 			return false;
 
 		case SDL_KEYDOWN:
-			keymap[event.key.keysym.sym] = true;
+			keymap_[event.key.keysym.sym] = true;
 			break;
 
 		case SDL_KEYUP:
-			keymap[event.key.keysym.sym] = false;
+			keymap_[event.key.keysym.sym] = false;
 			break;
 		}
 	}
@@ -34,5 +34,5 @@ bool InputState::pollForEvents()
 
 bool* InputState::keys()
 {
-	return &keymap[0];
+	return keymap_.data();
 }

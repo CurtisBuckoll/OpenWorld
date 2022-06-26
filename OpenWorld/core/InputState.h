@@ -2,6 +2,8 @@
 
 #include <stdint.h>
 
+#include <array>
+
 static constexpr uint32_t kKeymapSize = 2048;
 
 class InputState
@@ -18,5 +20,5 @@ public:
 
 private:
 
-	bool keymap[kKeymapSize];
+	std::array<bool, kKeymapSize> keymap_;
 };
