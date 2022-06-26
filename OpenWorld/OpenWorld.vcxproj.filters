@@ -29,6 +29,9 @@
     <ClCompile Include="model\Mesh.cpp">
       <Filter>model</Filter>
     </ClCompile>
+    <ClCompile Include="model\Model.cpp">
+      <Filter>model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="core">
@@ -88,6 +91,9 @@
       <Filter>core\graphics\gl</Filter>
     </ClInclude>
     <ClInclude Include="model\Mesh.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="model\Model.h">
       <Filter>model</Filter>
     </ClInclude>
   </ItemGroup>

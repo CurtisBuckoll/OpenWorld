@@ -129,7 +129,9 @@ int main( int argc, char** argv )
       1, 2, 3  // second triangle
    };
 
-   auto testMesh = std::make_shared<ow::Mesh>( owTestVertices, owTestIndices, std::vector<ow::TypedTexture>{} );
+   std::vector<std::shared_ptr<ow::core::Texture>> dummyTex;
+
+   auto testMesh = std::make_shared<ow::Mesh>( owTestVertices, owTestIndices, dummyTex, dummyTex );
 
    OW_LOG( INFO, "Starting main loop" );
 
