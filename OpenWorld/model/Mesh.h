@@ -51,12 +51,18 @@ public:
 
       // bind the vbo & ebo, for now fixed at slot 0 wtih no offset
       vbo_->bind();
-      ebo_->bind();
-      
+      if( indices_.size() > 0 )
+      {
+         ebo_->bind();
+         glDrawElements( GL_TRIANGLES, indices_.size(), GL_UNSIGNED_INT, 0 );
+      }
+      else
+      {
+         glDrawArrays( GL_TRIANGLES, 0, vertices_.size() );
+      }
+
       // just test with diffuse texture for now
       //diffuseTextures_[0]->bind( 0, sampler_ );
-
-      glDrawElements( GL_TRIANGLES, indices_.size(), GL_UNSIGNED_INT, 0);
    }
 
 private:
@@ -69,10 +75,13 @@ private:
                                            sizeof( Vertex ) * vertices.size(),
                                            sizeof( Vertex ),
                                            (void*)vertices.data() );
-      ebo_ = std::make_shared<ow::Buffer>( BufferUsage::ElementBuffer,
-                                           sizeof( uint32_t ) * indices.size(),
-                                           sizeof( uint32_t ),
-                                           (void*)indices.data() );
+      if( indices.size() > 0 )
+      {
+         ebo_ = std::make_shared<ow::Buffer>( BufferUsage::ElementBuffer,
+                                              sizeof( uint32_t ) * indices.size(),
+                                              sizeof( uint32_t ),
+                                              (void*)indices.data() );
+      }
    }
 
    // TODO: we don't really need to store these. maybe do so for now and

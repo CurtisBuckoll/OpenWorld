@@ -91,7 +91,7 @@ Buffer::~Buffer()
    //id_ = 0;
 }
 
-void Buffer::update(void* data, uint32_t offset, uint32_t sizeBytes)
+void Buffer::update(void* data, uint32_t sizeBytes, uint32_t offset /* = 0 */)
 {
    GLenum bufferUsage = getGlBufferUsage( usage_ );
    glBindBuffer( bufferUsage, id_ );

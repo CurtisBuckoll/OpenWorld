@@ -40,7 +40,7 @@ public:
 
    // -----------------------------------------------------------------
    //
-   void update( void* data, uint32_t offset, uint32_t sizeBytes );
+   void update( void* data, uint32_t sizeBytes, uint32_t offset = 0 );
 
    // TODO
    // void clear(...);
