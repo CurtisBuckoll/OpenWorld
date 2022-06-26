@@ -6,6 +6,12 @@
 
 static constexpr uint32_t kKeymapSize = 2048;
 
+struct MouseState
+{
+	int32_t x_ = 0;
+	int32_t y_ = 0;
+};
+
 class InputState
 {
 public:
@@ -16,9 +22,12 @@ public:
 	// returns false if should exit
 	bool pollForEvents();
 
-	bool* keys();
+	bool* keys() { return keymap_.data(); }
+
+	MouseState* mouseState() { return &mouseState_; }
 
 private:
 
 	std::array<bool, kKeymapSize> keymap_;
+	MouseState mouseState_;
 };

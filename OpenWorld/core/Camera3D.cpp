@@ -34,7 +34,7 @@ Camera3D::Camera3D() :
 
 
 // Initialise camera variables
-void Camera3D::Init( glm::vec3 position, glm::vec3 up, GLfloat yaw, GLfloat pitch )
+void Camera3D::init( glm::vec3 position, glm::vec3 up, GLfloat yaw, GLfloat pitch )
 {
 	_position = position;
 	_worldUp = up;
@@ -45,14 +45,21 @@ void Camera3D::Init( glm::vec3 position, glm::vec3 up, GLfloat yaw, GLfloat pitc
 
 
 // Returns the view matrix calculated using Eular Angles and the LookAt Matrix
-glm::mat4 Camera3D::GetViewMatrix()
+glm::mat4 Camera3D::viewMatrix() const
 {
 	return glm::lookAt( _position, _position + _front, _up );
 }
 
 
+void Camera3D::processInput( InputState& inputState )
+{
+	processMouse( inputState.mouseState() );
+	processKeyboard( inputState.keys() );
+}
+
+
 // Processes input received from any keyboard-like input system.
-void Camera3D::ProcessKeyboard( bool* keys )
+void Camera3D::processKeyboard( const bool* keys )
 {
 	static float deltaTime = 0.0f;
 	static float lastFrame = 0.0f;
@@ -82,7 +89,7 @@ void Camera3D::ProcessKeyboard( bool* keys )
 
 
 // Processes input received from a mouse input system. Expects the offset value in both the x and y direction.
-void Camera3D::ProcessMouseMovement( glm::vec2 pos )
+void Camera3D::processMouse( const MouseState* pos )
 {
 	static GLfloat lastX = 0;
 	static GLfloat lastY = 0;
@@ -92,16 +99,16 @@ void Camera3D::ProcessMouseMovement( glm::vec2 pos )
 	static bool firstMouse = true;
 	if( firstMouse )
 	{
-		lastX = pos.x;
-		lastY = pos.y;
+		lastX = pos->x_;
+		lastY = pos->y_;
 		firstMouse = false;
 		return;
 	}
 
-	xoffset = pos.x - lastX;
-	yoffset = lastY - pos.y;
-	lastX = pos.x;
-	lastY = pos.y;
+	xoffset = pos->x_ - lastX;
+	yoffset = lastY - pos->y_;
+	lastX = pos->x_;
+	lastY = pos->y_;
 	xoffset *= _mouseSensitivity;
 	yoffset *= _mouseSensitivity;
 	_yaw += xoffset;
@@ -119,7 +126,7 @@ void Camera3D::ProcessMouseMovement( glm::vec2 pos )
 	updateCameraVectors();
 }
 
-glm::vec3 Camera3D::getPosition()
+glm::vec3 Camera3D::position()
 {
 	return _position;
 }

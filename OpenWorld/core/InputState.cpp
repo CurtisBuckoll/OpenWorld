@@ -12,6 +12,8 @@ InputState::InputState()
 
 bool InputState::pollForEvents()
 {
+	SDL_GetMouseState( &mouseState_.x_, &mouseState_.y_ );
+
 	SDL_Event event;
 	while( SDL_PollEvent( &event ) )
 	{
@@ -30,9 +32,4 @@ bool InputState::pollForEvents()
 		}
 	}
 	return true;
-}
-
-bool* InputState::keys()
-{
-	return keymap_.data();
 }

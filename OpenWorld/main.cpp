@@ -169,7 +169,7 @@ int main( int argc, char** argv )
    // input state and camera test
    InputState inputState;
    Camera3D cam;
-   cam.Init( glm::vec3( 0.0f, 0.0f, 3.0f ) );
+   cam.init( glm::vec3( 0.0f, 0.0f, 3.0f ) );
 
    bool running = true;
    while( running )
@@ -177,9 +177,9 @@ int main( int argc, char** argv )
       //fb->bind();
 
       running = inputState.pollForEvents();
-      cam.ProcessKeyboard( inputState.keys() );
+      cam.processInput( inputState );
 
-      renderConstants.view_ = cam.GetViewMatrix();
+      renderConstants.view_ = cam.viewMatrix();
 
       glClearDepth( 1.0 );
       glClearColor( 0.2f, 0.3f, 0.5f, 1.0f );
