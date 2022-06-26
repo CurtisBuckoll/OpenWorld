@@ -32,7 +32,12 @@
     <ClCompile Include="model\Model.cpp">
       <Filter>model</Filter>
     </ClCompile>
-    <ClCompile Include="Camera3D.cpp" />
+    <ClCompile Include="core\Camera3D.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\InputState.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="core">
@@ -97,7 +102,12 @@
     <ClInclude Include="model\Model.h">
       <Filter>model</Filter>
     </ClInclude>
-    <ClInclude Include="Camera3D.h" />
+    <ClInclude Include="core\Camera3D.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\InputState.h">
+      <Filter>core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\simpleShader_fs.glsl">

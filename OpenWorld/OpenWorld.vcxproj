@@ -151,13 +151,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Camera3D.cpp" />
+    <ClCompile Include="core\Camera3D.cpp" />
     <ClCompile Include="core\Engine.cpp" />
     <ClCompile Include="core\graphics\gl\Buffer.cpp" />
     <ClCompile Include="core\graphics\gl\Framebuffer.cpp" />
     <ClCompile Include="core\graphics\gl\Sampler.cpp" />
     <ClCompile Include="core\graphics\gl\ShaderProgram.cpp" />
     <ClCompile Include="core\graphics\gl\Texture.cpp" />
+    <ClCompile Include="core\InputState.cpp" />
     <ClCompile Include="core\Platform.cpp" />
     <ClCompile Include="io\FileReader.cpp" />
     <ClCompile Include="main.cpp" />
@@ -166,13 +167,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rdparty\io\stb_image.h" />
-    <ClInclude Include="Camera3D.h" />
+    <ClInclude Include="core\Camera3D.h" />
     <ClInclude Include="core\Engine.h" />
     <ClInclude Include="core\graphics\gl\Buffer.h" />
     <ClInclude Include="core\graphics\gl\Framebuffer.h" />
     <ClInclude Include="core\graphics\gl\Sampler.h" />
     <ClInclude Include="core\graphics\gl\ShaderProgram.h" />
     <ClInclude Include="core\graphics\gl\Texture.h" />
+    <ClInclude Include="core\InputState.h" />
     <ClInclude Include="core\Platform.h" />
     <ClInclude Include="io\FileReader.h" />
     <ClInclude Include="io\Logging.h" />
