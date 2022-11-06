@@ -1,6 +1,5 @@
 #include "Platform.h"
 
-#include <iostream>
 #include <stdio.h>  // defines FILENAME_MAX
 
 #if _WIN32

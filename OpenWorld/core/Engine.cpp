@@ -1,6 +1,6 @@
 #include "Engine.h"
 
-#include <iostream>
+#include "io/Logging.h"
 
 
 // =======================================================================
@@ -40,7 +40,7 @@ void Engine::init()
    SDL_GLContext glContext = SDL_GL_CreateContext( window_ );
    if( glContext == nullptr )
    {
-      std::cout << "SDL_GL Context failed to create";
+      OW_LOG( ERRO, "SDL_GL Context failed to create" );
       exit( 0 );
    }
 
@@ -48,7 +48,7 @@ void Engine::init()
    glewExperimental = true;
    if( glewInit() != GLEW_OK )
    {
-      std::cout << "Could not initalize GLEW";
+      OW_LOG( ERRO, "Could not initalize GLEW" );
       exit( 0 );
    }
 }

@@ -1,6 +1,7 @@
 #include "FileReader.h"
 
-#include <iostream>
+#include "io/Logging.h"
+
 #include <unordered_map>
 
 namespace ow
@@ -43,8 +44,7 @@ void FileReader::openFile( const std::string& absPath, bool isBinary )
 
    if( !f_.is_open() )
    {
-      // TODO: error properly using errors class/logs
-      std::cout << "(LOG) ERROR: Failed to load shader file: " << absPath << std::endl;
+      OW_LOG( ERRO, "Failed to load file : %s", absPath);
       return;
    }
 

@@ -1,11 +1,11 @@
 #include "ShaderProgram.h"
 
 #include <filesystem>
-#include <iostream>
 #include <string>
 
-#include "../../Platform.h"
-#include "../../../io/FileReader.h" // TODO: clean up include paths
+#include "core/Platform.h"
+#include "io/FileReader.h"
+#include "io/Logging.h"
 
 namespace
 {
@@ -44,7 +44,7 @@ ShaderProgram::ShaderProgram( const std::string& vsName,
    if( !status )
    {
       glGetShaderInfoLog( vsId, 512, nullptr, errorLog );
-      std::cout << "Vertex shader compile failure\n" << errorLog << std::endl;
+      OW_LOG( ERRO, "Vertex shader compile failure:\n%s", errorLog );
    }
 
    // fragment shader
@@ -60,7 +60,7 @@ ShaderProgram::ShaderProgram( const std::string& vsName,
    if( !status )
    {
       glGetShaderInfoLog( fsId, 512, nullptr, errorLog );
-      std::cout << "Fragment shader compile failure\n" << errorLog << std::endl;
+      OW_LOG( ERRO, "Fragment shader compile failure:\n%s", errorLog );
    }
 
    // TODO: geometry shader
@@ -74,7 +74,7 @@ ShaderProgram::ShaderProgram( const std::string& vsName,
    if( !status )
    {
       glGetProgramInfoLog( id_, 512, nullptr, errorLog );
-      std::cout << "Linking shader program failure\n" << errorLog << std::endl;
+      OW_LOG( ERRO, "Linking shader program failure:\n%s", errorLog );
    }
 
    glDeleteShader( vsId );
@@ -84,6 +84,7 @@ ShaderProgram::ShaderProgram( const std::string& vsName,
    glGenVertexArrays( 1, &vao_ );
    glBindVertexArray( vao_ );
 
+   // vertix attribute layout
    for( uint32_t i = 0; i < numAttribs; ++i )
    {
       glEnableVertexAttribArray( i );
@@ -94,14 +95,6 @@ ShaderProgram::ShaderProgram( const std::string& vsName,
                             attribs[i].offset_ );
       glVertexAttribBinding( i, 0 );
    }
-
-   // TODO: add input layout
-   //glEnableVertexAttribArray( 0 );
-   //glVertexAttribFormat( 0, 3, GL_FLOAT, GL_FALSE, 0 );
-   //glVertexAttribBinding( 0, 0 );
-   //glEnableVertexAttribArray( 1 );
-   //glVertexAttribFormat( 1, 2, GL_FLOAT, GL_FALSE, 3 * sizeof( float ) );
-   //glVertexAttribBinding( 1, 0 );
 
    glBindVertexArray( 0 );
 }

@@ -23,6 +23,21 @@
     <ClCompile Include="core\graphics\gl\Sampler.cpp">
       <Filter>core\graphics\gl</Filter>
     </ClCompile>
+    <ClCompile Include="core\graphics\gl\Framebuffer.cpp">
+      <Filter>core\graphics\gl</Filter>
+    </ClCompile>
+    <ClCompile Include="model\Mesh.cpp">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="model\Model.cpp">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="core\Camera3D.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\InputState.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="core">
@@ -45,6 +60,9 @@
     </Filter>
     <Filter Include="shaders">
       <UniqueIdentifier>{ed89ff66-45d4-4c46-8e63-a0fa68232eb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="model">
+      <UniqueIdentifier>{8758d004-2f90-48c5-942c-664c2b0bcedb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -71,6 +89,24 @@
     </ClInclude>
     <ClInclude Include="core\graphics\gl\Sampler.h">
       <Filter>core\graphics\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="io\Logging.h">
+      <Filter>io</Filter>
+    </ClInclude>
+    <ClInclude Include="core\graphics\gl\Framebuffer.h">
+      <Filter>core\graphics\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="model\Mesh.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="model\Model.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="core\Camera3D.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\InputState.h">
+      <Filter>core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
