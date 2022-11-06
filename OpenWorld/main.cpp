@@ -1,4 +1,10 @@
-#include <Windows.h> // Glew may need some stuff from here.
+// including windows.h messes up some stuff with min/max macros, so
+// define NOMINMAX to subvert that. glew may need some things from
+// windows.h
+// we can probably move these includes to better places though later, so
+// make sure this is adressed better if it can be
+#define NOMINMAX
+#include <Windows.h>
 
 #include <SDL/SDL.h>
 #include <GL/glew.h>
@@ -12,7 +18,7 @@
 #include "core/graphics/gl/Texture.h"
 #include "core/graphics/gl/Buffer.h"
 #include "core/graphics/gl/Framebuffer.h"
-#include "model/Mesh.h"
+#include "model/Model.h"
 
 #include "core/Camera3D.h"
 #include "core/InputState.h"
@@ -102,12 +108,6 @@ static constexpr ow::core::AttribFormat inputLayout[] = {
    {2, 2, GL_FLOAT, GL_FALSE, offsetof( Vertex, uv )}
 };
 
-//static constexpr ow::core::AttribFormat inputLayout[] = {
-//   {0, 3, GL_FLOAT, GL_FALSE, 0},
-//   {1, 3, GL_FLOAT, GL_FALSE, offsetof( Vertex, colour )},
-//   {2, 2, GL_FLOAT, GL_FALSE, offsetof( Vertex, uv )}
-//};
-
 // TODO: read from file
 // parameters
 static const int32_t kWinWidth = 1000;
@@ -125,10 +125,10 @@ int main( int argc, char** argv )
 
    // -------------------------------------
    // begin texture code - test textures
-   std::string texturePath = ow::core::workingDir() + "assets\\test\\wood_diffuse.png";
-   ow::core::Texture testTexture( texturePath, true );
-   texturePath = ow::core::workingDir() + "assets\\test\\wood_specular.png";
-   ow::core::Texture testTexture2( texturePath, true );
+   //std::string texturePath = ow::core::workingDir() + "assets\\test\\wood_diffuse.png";
+   //ow::core::Texture testTexture( texturePath, true );
+   //texturePath = ow::core::workingDir() + "assets\\test\\wood_specular.png";
+   //ow::core::Texture testTexture2( texturePath, true );
 
    ow::Buffer vboCube( ow::BufferUsage::VertexBuffer, sizeof( vertices ), sizeof( Vertex ), vertices );
 
@@ -160,13 +160,16 @@ int main( int argc, char** argv )
 
    std::vector<std::shared_ptr<ow::core::Texture>> dummyTex;
 
-   auto testMesh = std::make_shared<ow::Mesh>( owTestVertices, owTestIndices, dummyTex, dummyTex );
+   //auto testMesh = std::make_shared<ow::Mesh>( owTestVertices, owTestIndices, dummyTex, dummyTex );
+
+   ow::Model backpackModel = ow::Model( "assets\\test\\backpack\\backpack.obj" );
 
    OW_LOG( INFO, "starting main loop" );
 
    RenderConstants renderConstants;
-   renderConstants.proj_ = glm::perspective( glm::radians( 45.0f ), (float)kWinWidth / (float)kWinHeight, 0.1f, 100.0f );
+   renderConstants.proj_ = glm::perspective( glm::radians( 60.0f ), (float)kWinWidth / (float)kWinHeight, 0.1f, 100.0f );
    renderConstants.view_ = glm::translate( glm::mat4( 1.0f ), glm::vec3( 0.0f, 0.0f, -3.0f ) );
+   renderConstants.model_ = glm::mat4( 1.0f );
 
    ow::Buffer constantBuffer( ow::BufferUsage::UniformBuffer, sizeof( RenderConstants ), 0, nullptr );
 
@@ -194,30 +197,35 @@ int main( int argc, char** argv )
 
       shaderProgram.use();
 
-      testTexture.bind( 0, sampler );
-      testTexture2.bind( 1, sampler );
+      constantBuffer.update( &renderConstants, sizeof( RenderConstants ) );
+      constantBuffer.bind( 0 );
 
-      vboCube.bind();
+      backpackModel.draw();
 
-      for( unsigned int i = 0; i < 10; i++ )
-      {
-         glm::mat4 model = glm::mat4( 1.0f );
-         model = glm::translate( model, cubePositions[i] );
-         float angle = 20.0f * i;
-         renderConstants.model_ = glm::rotate( model, glm::radians( angle ), glm::vec3( 1.0f, 0.3f, 0.5f ) );
+      //testTexture.bind( 0, sampler );
+      //testTexture2.bind( 1, sampler );
 
-         constantBuffer.update( &renderConstants, sizeof( RenderConstants ) );
-         constantBuffer.bind( 0 );
+      //vboCube.bind();
 
-         glDrawArrays( GL_TRIANGLES, 0, 36 );
-      }
+      //for( unsigned int i = 0; i < 10; i++ )
+      //{
+      //   glm::mat4 model = glm::mat4( 1.0f );
+      //   model = glm::translate( model, cubePositions[i] );
+      //   float angle = 20.0f * i;
+      //   renderConstants.model_ = glm::rotate( model, glm::radians( angle ), glm::vec3( 1.0f, 0.3f, 0.5f ) );
 
-      //glDrawArrays( GL_TRIANGLES, 0, 36 );
+      //   constantBuffer.update( &renderConstants, sizeof( RenderConstants ) );
+      //   constantBuffer.bind( 0 );
 
-      //testMesh->draw();
+      //   glDrawArrays( GL_TRIANGLES, 0, 36 );
+      //}
 
-      //glDrawElements( GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0 );
-      //glDrawArrays( GL_TRIANGLES, 0, 3 );
+      ////glDrawArrays( GL_TRIANGLES, 0, 36 );
+
+      ////testMesh->draw();
+
+      ////glDrawElements( GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0 );
+      ////glDrawArrays( GL_TRIANGLES, 0, 3 );
 
       SDL_GL_SwapWindow( engine.window() );
 

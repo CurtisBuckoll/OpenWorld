@@ -36,18 +36,39 @@ public:
    Mesh( const std::vector<Vertex>& vertices,
          const std::vector<uint32_t>& indices,
          const std::vector<std::shared_ptr<ow::core::Texture>>& diffuseTextures,
-         const std::vector<std::shared_ptr<ow::core::Texture>>& specularTextures )
+         const std::vector<std::shared_ptr<ow::core::Texture>>& specularTextures,
+         std::shared_ptr<ow::core::Sampler> sampler)
       : vertices_( vertices )
       , indices_( indices )
       , diffuseTextures_( diffuseTextures )
       , specularTextures_( specularTextures )
+      , sampler_(sampler)
    {
-      sampler_ = std::make_shared<ow::core::Sampler>( ow::core::SamplerType::LinFilterLinMips );
+      //sampler_ = std::make_shared<ow::core::Sampler>( ow::core::SamplerType::LinFilterLinMips );
       init( vertices, indices );
    }
 
    void draw()
    {
+      // for now, just bind first available diffuse & specular textures
+      if( diffuseTextures_.size() )
+      {
+         diffuseTextures_[0]->bind( 0, sampler_ );
+      }
+      else
+      {
+         OW_LOG( WARN, "no diffuse textures available for mesh" );
+      }
+      if( specularTextures_.size() )
+      {
+         diffuseTextures_[0]->bind( 1, sampler_ );
+      }
+      else
+      {
+         OW_LOG( WARN, "no specular textures available for mesh" );
+      }
+
+      //glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
 
       // bind the vbo & ebo, for now fixed at slot 0 wtih no offset
       vbo_->bind();
