@@ -38,6 +38,9 @@
     <ClCompile Include="core\InputState.cpp">
       <Filter>core</Filter>
     </ClCompile>
+    <ClCompile Include="model\Skybox.cpp">
+      <Filter>model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="core">
@@ -107,6 +110,12 @@
     </ClInclude>
     <ClInclude Include="core\InputState.h">
       <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="model\Skybox.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="model\IRenderable.h">
+      <Filter>model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

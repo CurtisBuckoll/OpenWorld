@@ -32,7 +32,7 @@ public:
 
    // -----------------------------------------------------------------
    //
-   Buffer( BufferUsage usage, uint32_t sizeBytes = 0, uint32_t stride = 0, void* data = nullptr );
+   Buffer( BufferUsage usage, uint32_t sizeBytes = 0, uint32_t stride = 0, const void* data = nullptr );
 
    // -----------------------------------------------------------------
    //

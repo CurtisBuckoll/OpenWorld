@@ -8,6 +8,8 @@
 #include <unordered_map>
 
 #include "io/Logging.h"
+
+#include "IRenderable.h"
 #include "Mesh.h"
 
 #include "core/Platform.h"
@@ -17,7 +19,7 @@ namespace ow
 
 // =======================================================================
 //
-class Model
+class Model : public IRenderable
 {
 public:
    // -----------------------------------------------------------------
@@ -62,7 +64,7 @@ public:
 
    // -----------------------------------------------------------------
    //
-   void draw()
+   virtual void draw() override
    {
       for( auto& mesh : meshes_ )
       {

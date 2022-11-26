@@ -19,6 +19,7 @@
 #include "core/graphics/gl/Buffer.h"
 #include "core/graphics/gl/Framebuffer.h"
 #include "model/Model.h"
+#include "model/Skybox.h"
 
 #include "core/Camera3D.h"
 #include "core/InputState.h"
@@ -85,51 +86,6 @@ glm::vec3 cubePositions[] = {
     glm::vec3( 1.5f,  2.0f, -2.5f ),
     glm::vec3( 1.5f,  0.2f, -1.5f ),
     glm::vec3( -1.3f,  1.0f, -1.5f )
-};
-
-float skyboxVertices[] = {
-   // positions          
-   -1.0f,  1.0f, -1.0f,
-   -1.0f, -1.0f, -1.0f,
-    1.0f, -1.0f, -1.0f,
-    1.0f, -1.0f, -1.0f,
-    1.0f,  1.0f, -1.0f,
-   -1.0f,  1.0f, -1.0f,
-
-   -1.0f, -1.0f,  1.0f,
-   -1.0f, -1.0f, -1.0f,
-   -1.0f,  1.0f, -1.0f,
-   -1.0f,  1.0f, -1.0f,
-   -1.0f,  1.0f,  1.0f,
-   -1.0f, -1.0f,  1.0f,
-
-    1.0f, -1.0f, -1.0f,
-    1.0f, -1.0f,  1.0f,
-    1.0f,  1.0f,  1.0f,
-    1.0f,  1.0f,  1.0f,
-    1.0f,  1.0f, -1.0f,
-    1.0f, -1.0f, -1.0f,
-
-   -1.0f, -1.0f,  1.0f,
-   -1.0f,  1.0f,  1.0f,
-    1.0f,  1.0f,  1.0f,
-    1.0f,  1.0f,  1.0f,
-    1.0f, -1.0f,  1.0f,
-   -1.0f, -1.0f,  1.0f,
-
-   -1.0f,  1.0f, -1.0f,
-    1.0f,  1.0f, -1.0f,
-    1.0f,  1.0f,  1.0f,
-    1.0f,  1.0f,  1.0f,
-   -1.0f,  1.0f,  1.0f,
-   -1.0f,  1.0f, -1.0f,
-
-   -1.0f, -1.0f, -1.0f,
-   -1.0f, -1.0f,  1.0f,
-    1.0f, -1.0f, -1.0f,
-    1.0f, -1.0f, -1.0f,
-   -1.0f, -1.0f,  1.0f,
-    1.0f, -1.0f,  1.0f
 };
 
 struct RenderConstants
@@ -219,24 +175,9 @@ int main( int argc, char** argv )
 
    std::vector<std::shared_ptr<ow::core::Texture>> dummyTex;
 
-   //auto testMesh = std::make_shared<ow::Mesh>( owTestVertices, owTestIndices, dummyTex, dummyTex );
-
    ow::Model backpackModel = ow::Model( "assets\\test\\backpack\\backpack.obj" );
 
-   // skybox
-   std::vector<std::string> cubemapFaces
-   {
-      "right.jpg",
-      "left.jpg",
-      "top.jpg",
-      "bottom.jpg",
-      "front.jpg",
-      "back.jpg"
-   };
-
-   auto cubemapTexture = std::make_shared<ow::core::Texture>( cubemapFaces );
-   
-   ow::Buffer skyboxVertexData( ow::BufferUsage::VertexBuffer, sizeof( skyboxVertices ), sizeof( glm::vec3 ), skyboxVertices );
+   auto skybox = std::make_shared<ow::Skybox>( "assets\\test\\brudslojan_skybox\\" );
 
    OW_LOG_INFO( "starting main loop" );
 
@@ -268,21 +209,6 @@ int main( int argc, char** argv )
       glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
       glEnable( GL_DEPTH_TEST );
 
-      //skyboxShaderProgram.use();
-      //constantBuffer.update( &renderConstants, sizeof( RenderConstants ) );
-      //constantBuffer.bind( 0 );
-      //skyboxVertexData.bind();
-      //cubemapTexture->bind( 0, sampler );
-      ////glDisable( GL_DEPTH_TEST );
-      //glDepthMask( GL_FALSE );
-      //glDrawArrays( GL_TRIANGLES, 0, 36 );
-      //glDepthMask( GL_TRUE );
-      //skyboxShaderProgram.unuse();
-
-      //glEnable( GL_DEPTH_TEST );
-      //glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-      //glClear( GL_DEPTH_BUFFER_BIT );
-
       // 1. reflective rendering for fun:
 
       //reflectShaderProgram.use();
@@ -308,15 +234,21 @@ int main( int argc, char** argv )
       // 3. render skybox last for perf
 
       skyboxShaderProgram.use();
-      constantBuffer.update( &renderConstants, sizeof( RenderConstants ) );
       constantBuffer.bind( 0 );
-      skyboxVertexData.bind();
-      cubemapTexture->bind( 0, sampler );
-      glDepthMask( GL_FALSE );
-      glDepthFunc( GL_LEQUAL );
-      glDrawArrays( GL_TRIANGLES, 0, 36 );
-      glDepthMask( GL_TRUE );
+      skybox->draw();
       skyboxShaderProgram.unuse();
+
+      // old way:
+      //skyboxShaderProgram.use();
+      //constantBuffer.update( &renderConstants, sizeof( RenderConstants ) );
+      //constantBuffer.bind( 0 );
+      //skyboxVertexData.bind();
+      //cubemapTexture->bind( 0, sampler );
+      //glDepthMask( GL_FALSE );
+      //glDepthFunc( GL_LEQUAL );
+      //glDrawArrays( GL_TRIANGLES, 0, 36 );
+      //glDepthMask( GL_TRUE );
+      //skyboxShaderProgram.unuse();
 
       SDL_GL_SwapWindow( engine.window() );
 

@@ -39,7 +39,7 @@ Texture::Texture( const std::vector<std::string>& cubemapFiles )
 {
    // we could maybe merge this to share init code below, but leaving for now since i's
    // not super important and maybe more readable this way
-   const std::string dir = ow::core::workingDir() + "assets\\test\\skybox\\";
+   //const std::string dir = ow::core::workingDir() + "assets\\test\\skybox\\";
 
    OW_ASSERT( cubemapFiles.size() == 6 );
    glGenTextures( 1, &id_ );
@@ -50,7 +50,7 @@ Texture::Texture( const std::vector<std::string>& cubemapFiles )
       // tell stb_image.h to flip texture
       stbi_set_flip_vertically_on_load( false );
 
-      unsigned char* data = stbi_load( (dir + cubemapFiles[i]).c_str(), &width_, &height_, &numChannels_, 0 );
+      unsigned char* data = stbi_load( (cubemapFiles[i]).c_str(), &width_, &height_, &numChannels_, 0 );
       if( data )
       {
          glTexImage2D( GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,

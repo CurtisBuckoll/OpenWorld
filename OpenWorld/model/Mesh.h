@@ -68,9 +68,7 @@ public:
          OW_LOG( WARN, "no specular textures available for mesh" );
       }
 
-      //glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
-
-      // bind the vbo & ebo, for now fixed at slot 0 wtih no offset
+      // bind the vbo & ebo, for now fixed at slot 0 with no offset
       vbo_->bind();
       if( indices_.size() > 0 )
       {
@@ -81,9 +79,6 @@ public:
       {
          glDrawArrays( GL_TRIANGLES, 0, vertices_.size() );
       }
-
-      // just test with diffuse texture for now
-      //diffuseTextures_[0]->bind( 0, sampler_ );
    }
 
 private:
