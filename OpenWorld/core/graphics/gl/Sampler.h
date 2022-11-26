@@ -24,8 +24,8 @@ public:
    Sampler() = delete;
    Sampler( const Sampler& ) = delete;
    Sampler& operator=( const Sampler& ) = delete;
-   Sampler( const Sampler&& ) = delete;
-   Sampler& operator=( const Sampler&& ) = delete;
+   Sampler( Sampler&& ) = delete;
+   Sampler& operator=( Sampler&& ) = delete;
 
    // -----------------------------------------------------------------
    //

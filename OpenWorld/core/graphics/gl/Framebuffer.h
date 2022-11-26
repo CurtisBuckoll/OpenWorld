@@ -22,8 +22,8 @@ public:
    Framebuffer() = delete;
    Framebuffer( const Framebuffer& ) = delete;
    Framebuffer& operator=( const Framebuffer& ) = delete;
-   Framebuffer( const Framebuffer&& ) = delete;
-   Framebuffer& operator=( const Framebuffer&& ) = delete;
+   Framebuffer( Framebuffer&& ) = delete;
+   Framebuffer& operator=( Framebuffer&& ) = delete;
 
    // -----------------------------------------------------------------
    //
