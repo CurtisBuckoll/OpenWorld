@@ -68,13 +68,13 @@ namespace ow
 //
 Skybox::Skybox( const char* folderPath )
 {
-   const std::string dir = ow::core::workingDir() + folderPath;
+   const std::string dir = ow::workingDir() + folderPath;
    std::vector<std::string> filePaths( kNumCubeFaces );
    for( uint32_t i = 0; i < kNumCubeFaces; ++i )
    {
       filePaths[i] = dir + std::string( kCubemapFaces[i] );
    }
-   cubemapTexture_ = std::make_shared<ow::core::Texture>( filePaths );
+   cubemapTexture_ = std::make_shared<ow::Texture>( filePaths );
    cubeVertexData_ = std::make_shared<ow::Buffer>( BufferUsage::VertexBuffer, sizeof( kCubeVertices ), 3 * sizeof( float ), kCubeVertices );
 }
 

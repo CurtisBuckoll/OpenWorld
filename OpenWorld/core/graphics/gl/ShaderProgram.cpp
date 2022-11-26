@@ -15,8 +15,6 @@ static constexpr std::string_view shaderExt    = ".glsl";
 
 namespace ow
 {
-namespace core
-{
 
 // =======================================================================
 //
@@ -127,5 +125,4 @@ void ShaderProgram::unuse()
    glBindVertexArray( 0 );
 }
 
-}
 }

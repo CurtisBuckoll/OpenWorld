@@ -6,8 +6,6 @@
 
 namespace ow
 {
-namespace core
-{
 
 enum class SamplerType
 {
@@ -82,5 +80,4 @@ private:
    uint32_t curSlot_ = 0;
 };
 
-}
 }

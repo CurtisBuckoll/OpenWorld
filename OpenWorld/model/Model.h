@@ -38,13 +38,13 @@ public:
    // aiProcess_OptimizeMeshes
    // aiProcess_SplitLargeMeshes
    Model( const std::string& relFilePath )
-      : sampler_(std::make_shared<ow::core::Sampler>( ow::core::SamplerType::LinFilterLinMips ))
+      : sampler_(std::make_shared<ow::Sampler>( ow::SamplerType::LinFilterLinMips ))
    {
       std::filesystem::path path( relFilePath );
       path.remove_filename();
-      assetDirectory_ = ow::core::workingDir() + path.string();
+      assetDirectory_ = ow::workingDir() + path.string();
 
-      const auto assetFilePath = ow::core::workingDir() + relFilePath;
+      const auto assetFilePath = ow::workingDir() + relFilePath;
 
       OW_LOG( INFO, "loading assimp model: %s", assetFilePath.c_str() );
       OW_LOG( INFO, "asset directory: %s", assetDirectory_.c_str() );
@@ -95,8 +95,8 @@ private:
    {
       std::vector<Vertex> vertices;
       std::vector<uint32_t> indices;
-      std::vector<std::shared_ptr<ow::core::Texture>> diffTextures;
-      std::vector<std::shared_ptr<ow::core::Texture>> specTextures;
+      std::vector<std::shared_ptr<ow::Texture>> diffTextures;
+      std::vector<std::shared_ptr<ow::Texture>> specTextures;
 
       for( uint32_t i = 0; i < mesh->mNumVertices; i++ )
       {
@@ -151,10 +151,10 @@ private:
 
    // -----------------------------------------------------------------
    //
-   std::vector<std::shared_ptr<ow::core::Texture>> loadMaterialTextures( aiMaterial* mat,
+   std::vector<std::shared_ptr<ow::Texture>> loadMaterialTextures( aiMaterial* mat,
                                                                          aiTextureType type )
    {
-      std::vector<std::shared_ptr<ow::core::Texture>> textures;
+      std::vector<std::shared_ptr<ow::Texture>> textures;
       for( unsigned int i = 0; i < mat->GetTextureCount( type ); i++ )
       {
          // this literally gives us only file name, so we have to prepend
@@ -163,13 +163,13 @@ private:
          mat->GetTexture( type, i, &filename );
          
          std::string path = assetDirectory_ + filename.C_Str();
-         std::shared_ptr<ow::core::Texture> tex;
+         std::shared_ptr<ow::Texture> tex;
 
          // check if in cache and reuse if so
          auto found = textureCache_.find( path );
          if( found == textureCache_.end() )
          {
-            tex = std::make_shared<ow::core::Texture>( path, true );
+            tex = std::make_shared<ow::Texture>( path, true );
             textureCache_.insert( { path, tex } );
          }
          else
@@ -185,8 +185,8 @@ private:
    //
    std::vector<ow::Mesh> meshes_;
    std::string assetDirectory_;
-   std::shared_ptr<ow::core::Sampler> sampler_;
+   std::shared_ptr<ow::Sampler> sampler_;
 
-   std::unordered_map<std::string, std::shared_ptr<ow::core::Texture>> textureCache_;
+   std::unordered_map<std::string, std::shared_ptr<ow::Texture>> textureCache_;
 };
 }

@@ -10,8 +10,6 @@
 
 namespace ow
 {
-namespace core
-{
 
 // =======================================================================
 //
@@ -188,5 +186,4 @@ void Texture::init( uint8_t* data, bool genMips, bool isDepthTex)
    glBindTexture( GL_TEXTURE_2D, 0 );
 }
 
-}
 }

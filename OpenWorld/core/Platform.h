@@ -10,12 +10,9 @@
 //
 namespace ow
 {
-namespace core
-{
 
 // -----------------------------------------------------------------
 //
 std::string workingDir();
 
-}
 }

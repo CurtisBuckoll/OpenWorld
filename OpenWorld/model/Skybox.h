@@ -36,7 +36,7 @@ private:
 
    // -----------------------------------------------------------------
    //
-   std::shared_ptr<ow::core::Texture> cubemapTexture_;
+   std::shared_ptr<ow::Texture> cubemapTexture_;
    std::shared_ptr<ow::Buffer> cubeVertexData_;
 };
 }

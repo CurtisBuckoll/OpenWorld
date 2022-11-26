@@ -103,13 +103,13 @@ struct Vertex
    float uv[2];
 };
 
-static constexpr ow::core::AttribFormat inputLayout[] = {
+static constexpr ow::AttribFormat inputLayout[] = {
    {0, 3, GL_FLOAT, GL_FALSE, 0},
    {1, 3, GL_FLOAT, GL_FALSE, offsetof( Vertex, normal )},
    {2, 2, GL_FLOAT, GL_FALSE, offsetof( Vertex, uv )}
 };
 
-static constexpr ow::core::AttribFormat skyboxInputLayout[] = {
+static constexpr ow::AttribFormat skyboxInputLayout[] = {
    {0, 3, GL_FLOAT, GL_FALSE, 0},
 };
 
@@ -125,7 +125,7 @@ int main( int argc, char** argv )
    OW_LOG( INFO, "Lauching Open World" );
    OW_LOG( INFO, "initializing window with window resolution: %dx%d", kWinWidth, kWinHeight );
 
-   ow::core::Engine engine( kWinWidth, kWinHeight );
+   ow::Engine engine( kWinWidth, kWinHeight );
    engine.init();
 
    // -------------------------------------
@@ -137,22 +137,22 @@ int main( int argc, char** argv )
 
    ow::Buffer vboCube( ow::BufferUsage::VertexBuffer, sizeof( vertices ), sizeof( Vertex ), vertices );
 
-   ow::core::ShaderProgram shaderProgram( "simpleShader_vs",
-                                          "simpleShader_fs",
-                                          inputLayout,
-                                          sizeof( inputLayout ) / sizeof( ow::core::AttribFormat ) );
+   ow::ShaderProgram shaderProgram( "simpleShader_vs",
+                                    "simpleShader_fs",
+                                    inputLayout,
+                                    sizeof( inputLayout ) / sizeof( ow::AttribFormat ) );
 
-   ow::core::ShaderProgram reflectShaderProgram( "simpleShader_vs",
-                                                 "reflective_fs",
-                                                 inputLayout,
-                                                 sizeof( inputLayout ) / sizeof( ow::core::AttribFormat ) );
+   ow::ShaderProgram reflectShaderProgram( "simpleShader_vs",
+                                           "reflective_fs",
+                                           inputLayout,
+                                           sizeof( inputLayout ) / sizeof( ow::AttribFormat ) );
 
-   ow::core::ShaderProgram skyboxShaderProgram( "skyboxShader_vs",
-                                                "skyboxShader_fs",
-                                                skyboxInputLayout,
-                                                sizeof( skyboxInputLayout ) / sizeof( ow::core::AttribFormat ) );
+   ow::ShaderProgram skyboxShaderProgram( "skyboxShader_vs",
+                                          "skyboxShader_fs",
+                                          skyboxInputLayout,
+                                          sizeof( skyboxInputLayout ) / sizeof( ow::AttribFormat ) );
 
-   auto sampler = std::make_shared<ow::core::Sampler>( ow::core::SamplerType::LinFilterLinMips );
+   auto sampler = std::make_shared<ow::Sampler>( ow::SamplerType::LinFilterLinMips );
 
    // test making a framebuffer
    auto fb = std::make_shared<ow::Framebuffer>( kWinWidth, kWinHeight );
@@ -173,7 +173,7 @@ int main( int argc, char** argv )
       1, 2, 3  // second triangle
    };
 
-   std::vector<std::shared_ptr<ow::core::Texture>> dummyTex;
+   std::vector<std::shared_ptr<ow::Texture>> dummyTex;
 
    ow::Model backpackModel = ow::Model( "assets\\test\\backpack\\backpack.obj" );
 

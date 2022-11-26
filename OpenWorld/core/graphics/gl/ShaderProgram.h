@@ -9,8 +9,6 @@
 
 namespace ow
 {
-namespace core
-{
 
 struct AttribFormat
 {
@@ -65,5 +63,4 @@ private:
    GLuint vao_ = 0;
 };
 
-}
 }

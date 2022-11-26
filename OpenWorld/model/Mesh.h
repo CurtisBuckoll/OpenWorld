@@ -35,9 +35,9 @@ public:
    //
    Mesh( const std::vector<Vertex>& vertices,
          const std::vector<uint32_t>& indices,
-         const std::vector<std::shared_ptr<ow::core::Texture>>& diffuseTextures,
-         const std::vector<std::shared_ptr<ow::core::Texture>>& specularTextures,
-         std::shared_ptr<ow::core::Sampler> sampler)
+         const std::vector<std::shared_ptr<ow::Texture>>& diffuseTextures,
+         const std::vector<std::shared_ptr<ow::Texture>>& specularTextures,
+         std::shared_ptr<ow::Sampler> sampler)
       : vertices_( vertices )
       , indices_( indices )
       , diffuseTextures_( diffuseTextures )
@@ -106,11 +106,11 @@ private:
    std::vector<uint32_t> indices_;
 
    // TODO: change how we use samplers so we don't make one per mesh but instead share.
-   std::shared_ptr<ow::core::Sampler> sampler_;
+   std::shared_ptr<ow::Sampler> sampler_;
 
    // just bind the first of each for now
-   std::vector<std::shared_ptr<ow::core::Texture>> diffuseTextures_;
-   std::vector<std::shared_ptr<ow::core::Texture>> specularTextures_;
+   std::vector<std::shared_ptr<ow::Texture>> diffuseTextures_;
+   std::vector<std::shared_ptr<ow::Texture>> specularTextures_;
 
    std::shared_ptr<Buffer> vbo_;
    std::shared_ptr<Buffer> ebo_;
