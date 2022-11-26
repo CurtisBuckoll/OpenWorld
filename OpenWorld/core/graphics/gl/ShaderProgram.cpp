@@ -15,8 +15,6 @@ static constexpr std::string_view shaderExt    = ".glsl";
 
 namespace ow
 {
-namespace core
-{
 
 // =======================================================================
 //
@@ -115,6 +113,8 @@ void ShaderProgram::use()
 {
    glUseProgram( id_ );
    glBindVertexArray( vao_ );
+
+   // TODO: let's bind the samplers here
 }
 
 // =======================================================================
@@ -125,5 +125,4 @@ void ShaderProgram::unuse()
    glBindVertexArray( 0 );
 }
 
-}
 }

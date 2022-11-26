@@ -8,12 +8,7 @@
 #include "io/Logging.h"
 
 
-// TODO: create texture cache by ptr lookup
-
-
 namespace ow
-{
-namespace core
 {
 
 // =======================================================================
@@ -33,6 +28,50 @@ Texture::Texture( const std::string& filepath,
 
    init( data, genMips, false );
    stbi_image_free( data );
+}
+
+// =======================================================================
+//
+Texture::Texture( const std::vector<std::string>& cubemapFiles )
+   : isCubemap_( true )
+{
+   // we could maybe merge this to share init code below, but leaving for now since i's
+   // not super important and maybe more readable this way
+   //const std::string dir = ow::core::workingDir() + "assets\\test\\skybox\\";
+
+   OW_ASSERT( cubemapFiles.size() == 6 );
+   glGenTextures( 1, &id_ );
+   glBindTexture( GL_TEXTURE_CUBE_MAP, id_ );
+
+   for( uint32_t i = 0; i < cubemapFiles.size(); i++ )
+   {
+      // tell stb_image.h to flip texture
+      stbi_set_flip_vertically_on_load( false );
+
+      unsigned char* data = stbi_load( (cubemapFiles[i]).c_str(), &width_, &height_, &numChannels_, 0 );
+      if( data )
+      {
+         glTexImage2D( GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
+                       0, 
+                       GL_RGB, 
+                       width_, 
+                       height_, 
+                       0, 
+                       GL_RGB, GL_UNSIGNED_BYTE, 
+                       data );
+      }
+      else
+      {
+         OW_LOG_WARN( "Texture::Texture (cubemap) - failed to load file %s", cubemapFiles[i] );
+      }
+      stbi_image_free( data );
+   }
+   glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+   glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+   glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
+   glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
+   glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE );
+   glBindTexture( GL_TEXTURE_CUBE_MAP, 0 );
 }
 
 // =======================================================================
@@ -76,13 +115,20 @@ Texture::~Texture()
 void Texture::bind( uint32_t slot, const std::shared_ptr<Sampler>& sampler )
 {
    glActiveTexture( GL_TEXTURE0 + slot );
-   glBindTexture( GL_TEXTURE_2D, id_ );
+   glBindTexture( isCubemap_ ? GL_TEXTURE_CUBE_MAP : GL_TEXTURE_2D, id_ );
 
    // sampler
    // TODO: we could make these samplers Global in some Engine.cpp, or something like
    // that. Then we pass the sampler enum in to the bind() here instead of the actual sampler.
    // not sure yet.. maybe we want to move all bind calls to Engine.cpp (or Graphics.cpp)?
-   sampler->bind( slot );
+   //
+   // BIG NOTE: disabling this still works, especially for enabling cube map textures. but
+   // we will need a longer term solution for this, so next thing we do should probably be
+   // to address above TODO
+   // NOTE: this is probably because texture sampling paramaters take effect in place of
+   // sampler parameters if no sampler is bound. this is assuming the sampler paramaters
+   // override the texture parameters. we should verify if that is indeed the case
+   //sampler->bind( slot );
 
    //glBindSampler( slot, samplerId_ );
 }
@@ -138,11 +184,6 @@ void Texture::init( uint8_t* data, bool genMips, bool isDepthTex)
    }
 
    glBindTexture( GL_TEXTURE_2D, 0 );
-
-   // sampler
-   //glGenSamplers( 1, &samplerId_ );
-   //glSamplerParameter*(...);
 }
 
-}
 }

@@ -27,12 +27,12 @@ public:
    Buffer() = delete;
    Buffer( const Buffer& ) = delete;
    Buffer& operator=( const Buffer& ) = delete;
-   Buffer( const Buffer&& ) = delete;
-   Buffer& operator=( const Buffer&& ) = delete;
+   Buffer( Buffer&& ) = delete;
+   Buffer& operator=( Buffer&& ) = delete;
 
    // -----------------------------------------------------------------
    //
-   Buffer( BufferUsage usage, uint32_t sizeBytes = 0, uint32_t stride = 0, void* data = nullptr );
+   Buffer( BufferUsage usage, uint32_t sizeBytes = 0, uint32_t stride = 0, const void* data = nullptr );
 
    // -----------------------------------------------------------------
    //

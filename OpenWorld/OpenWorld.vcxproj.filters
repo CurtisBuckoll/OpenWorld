@@ -38,6 +38,9 @@
     <ClCompile Include="core\InputState.cpp">
       <Filter>core</Filter>
     </ClCompile>
+    <ClCompile Include="model\Skybox.cpp">
+      <Filter>model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="core">
@@ -108,12 +111,27 @@
     <ClInclude Include="core\InputState.h">
       <Filter>core</Filter>
     </ClInclude>
+    <ClInclude Include="model\Skybox.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="model\IRenderable.h">
+      <Filter>model</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\simpleShader_fs.glsl">
       <Filter>shaders</Filter>
     </None>
     <None Include="shaders\simpleShader_vs.glsl">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\skyboxShader_vs.glsl">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\skyboxShader_fs.glsl">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\reflective_fs.glsl">
       <Filter>shaders</Filter>
     </None>
   </ItemGroup>

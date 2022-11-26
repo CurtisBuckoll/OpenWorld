@@ -8,8 +8,6 @@
 #include "core/graphics/gl/Texture.h"
 
 
-// TODO: see TODO's
-
 namespace ow
 {
 
@@ -24,8 +22,8 @@ public:
    Framebuffer() = delete;
    Framebuffer( const Framebuffer& ) = delete;
    Framebuffer& operator=( const Framebuffer& ) = delete;
-   Framebuffer( const Framebuffer&& ) = delete;
-   Framebuffer& operator=( const Framebuffer&& ) = delete;
+   Framebuffer( Framebuffer&& ) = delete;
+   Framebuffer& operator=( Framebuffer&& ) = delete;
 
    // -----------------------------------------------------------------
    //
@@ -34,10 +32,10 @@ public:
       glGenFramebuffers(1, &id_);
       glBindFramebuffer(GL_FRAMEBUFFER, id_);
 
-      auto tex = std::make_shared<ow::core::Texture>(width, height, false);
+      auto tex = std::make_shared<ow::Texture>(width, height, false);
       glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, tex->id(), 0);
 
-      auto depthTex = std::make_shared<ow::core::Texture>(width, height, true);
+      auto depthTex = std::make_shared<ow::Texture>(width, height, true);
       glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthTex->id(), 0);
 
       if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) 

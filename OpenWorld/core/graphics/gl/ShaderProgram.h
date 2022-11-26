@@ -9,8 +9,6 @@
 
 namespace ow
 {
-namespace core
-{
 
 struct AttribFormat
 {
@@ -31,8 +29,8 @@ public:
    ShaderProgram() = delete;
    ShaderProgram( const ShaderProgram& ) = delete;
    ShaderProgram& operator=( const ShaderProgram& ) = delete;
-   ShaderProgram( const ShaderProgram&& ) = delete;
-   ShaderProgram& operator=( const ShaderProgram&& ) = delete;
+   ShaderProgram( ShaderProgram&& ) = delete;
+   ShaderProgram& operator=( ShaderProgram&& ) = delete;
 
    // -----------------------------------------------------------------
    //
@@ -65,5 +63,4 @@ private:
    GLuint vao_ = 0;
 };
 
-}
 }

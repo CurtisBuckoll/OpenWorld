@@ -6,8 +6,6 @@
 
 namespace ow
 {
-namespace core
-{
 
 enum class SamplerType
 {
@@ -26,8 +24,8 @@ public:
    Sampler() = delete;
    Sampler( const Sampler& ) = delete;
    Sampler& operator=( const Sampler& ) = delete;
-   Sampler( const Sampler&& ) = delete;
-   Sampler& operator=( const Sampler&& ) = delete;
+   Sampler( Sampler&& ) = delete;
+   Sampler& operator=( Sampler&& ) = delete;
 
    // -----------------------------------------------------------------
    //
@@ -82,5 +80,4 @@ private:
    uint32_t curSlot_ = 0;
 };
 
-}
 }

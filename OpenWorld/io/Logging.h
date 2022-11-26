@@ -42,3 +42,15 @@ static void time_stamp( char* const buffer ) {
   printf(msg, ##__VA_ARGS__ ); \
 } \
 while(0) \
+
+// -----------------------------------------------------------------
+//
+#define OW_LOG_INFO( log_str, ... ) OW_LOG( INFO, log_str, ##__VA_ARGS__ );
+
+// -----------------------------------------------------------------
+//
+#define OW_LOG_WARN( log_str, ... ) OW_LOG( WARN, log_str, ##__VA_ARGS__ );
+
+// -----------------------------------------------------------------
+//
+#define OW_LOG_ERROR( log_str, ... ) OW_LOG( ERROR, log_str, ##__VA_ARGS__ );

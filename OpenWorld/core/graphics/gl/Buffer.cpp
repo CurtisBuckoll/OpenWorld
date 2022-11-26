@@ -23,7 +23,7 @@ static GLenum getGlBufferUsage( BufferUsage usage )
 Buffer::Buffer( BufferUsage usage,
                 uint32_t sizeBytes /*= 0*/,
                 uint32_t stride /*= 0*/,
-                void* data /*= nullptr*/ )
+                const void* data /*= nullptr*/ )
    : usage_( usage )
    , byteStride_( stride )
 {
