@@ -87,6 +87,51 @@ glm::vec3 cubePositions[] = {
     glm::vec3( -1.3f,  1.0f, -1.5f )
 };
 
+float skyboxVertices[] = {
+   // positions          
+   -1.0f,  1.0f, -1.0f,
+   -1.0f, -1.0f, -1.0f,
+    1.0f, -1.0f, -1.0f,
+    1.0f, -1.0f, -1.0f,
+    1.0f,  1.0f, -1.0f,
+   -1.0f,  1.0f, -1.0f,
+
+   -1.0f, -1.0f,  1.0f,
+   -1.0f, -1.0f, -1.0f,
+   -1.0f,  1.0f, -1.0f,
+   -1.0f,  1.0f, -1.0f,
+   -1.0f,  1.0f,  1.0f,
+   -1.0f, -1.0f,  1.0f,
+
+    1.0f, -1.0f, -1.0f,
+    1.0f, -1.0f,  1.0f,
+    1.0f,  1.0f,  1.0f,
+    1.0f,  1.0f,  1.0f,
+    1.0f,  1.0f, -1.0f,
+    1.0f, -1.0f, -1.0f,
+
+   -1.0f, -1.0f,  1.0f,
+   -1.0f,  1.0f,  1.0f,
+    1.0f,  1.0f,  1.0f,
+    1.0f,  1.0f,  1.0f,
+    1.0f, -1.0f,  1.0f,
+   -1.0f, -1.0f,  1.0f,
+
+   -1.0f,  1.0f, -1.0f,
+    1.0f,  1.0f, -1.0f,
+    1.0f,  1.0f,  1.0f,
+    1.0f,  1.0f,  1.0f,
+   -1.0f,  1.0f,  1.0f,
+   -1.0f,  1.0f, -1.0f,
+
+   -1.0f, -1.0f, -1.0f,
+   -1.0f, -1.0f,  1.0f,
+    1.0f, -1.0f, -1.0f,
+    1.0f, -1.0f, -1.0f,
+   -1.0f, -1.0f,  1.0f,
+    1.0f, -1.0f,  1.0f
+};
+
 struct RenderConstants
 {
    glm::mat4 model_;
@@ -106,6 +151,10 @@ static constexpr ow::core::AttribFormat inputLayout[] = {
    {0, 3, GL_FLOAT, GL_FALSE, 0},
    {1, 3, GL_FLOAT, GL_FALSE, offsetof( Vertex, normal )},
    {2, 2, GL_FLOAT, GL_FALSE, offsetof( Vertex, uv )}
+};
+
+static constexpr ow::core::AttribFormat skyboxInputLayout[] = {
+   {0, 3, GL_FLOAT, GL_FALSE, 0},
 };
 
 // TODO: read from file
@@ -137,6 +186,16 @@ int main( int argc, char** argv )
                                           inputLayout,
                                           sizeof( inputLayout ) / sizeof( ow::core::AttribFormat ) );
 
+   ow::core::ShaderProgram reflectShaderProgram( "simpleShader_vs",
+                                                 "reflective_fs",
+                                                 inputLayout,
+                                                 sizeof( inputLayout ) / sizeof( ow::core::AttribFormat ) );
+
+   ow::core::ShaderProgram skyboxShaderProgram( "skyboxShader_vs",
+                                                "skyboxShader_fs",
+                                                skyboxInputLayout,
+                                                sizeof( skyboxInputLayout ) / sizeof( ow::core::AttribFormat ) );
+
    auto sampler = std::make_shared<ow::core::Sampler>( ow::core::SamplerType::LinFilterLinMips );
 
    // test making a framebuffer
@@ -164,7 +223,22 @@ int main( int argc, char** argv )
 
    ow::Model backpackModel = ow::Model( "assets\\test\\backpack\\backpack.obj" );
 
-   OW_LOG( INFO, "starting main loop" );
+   // skybox
+   std::vector<std::string> cubemapFaces
+   {
+      "right.jpg",
+      "left.jpg",
+      "top.jpg",
+      "bottom.jpg",
+      "front.jpg",
+      "back.jpg"
+   };
+
+   auto cubemapTexture = std::make_shared<ow::core::Texture>( cubemapFaces );
+   
+   ow::Buffer skyboxVertexData( ow::BufferUsage::VertexBuffer, sizeof( skyboxVertices ), sizeof( glm::vec3 ), skyboxVertices );
+
+   OW_LOG_INFO( "starting main loop" );
 
    RenderConstants renderConstants;
    renderConstants.proj_ = glm::perspective( glm::radians( 60.0f ), (float)kWinWidth / (float)kWinHeight, 0.1f, 100.0f );
@@ -191,16 +265,65 @@ int main( int argc, char** argv )
 
       glClearDepth( 1.0 );
       glClearColor( 0.2f, 0.3f, 0.5f, 1.0f );
-
-      glEnable( GL_DEPTH_TEST );
       glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+      glEnable( GL_DEPTH_TEST );
+
+      //skyboxShaderProgram.use();
+      //constantBuffer.update( &renderConstants, sizeof( RenderConstants ) );
+      //constantBuffer.bind( 0 );
+      //skyboxVertexData.bind();
+      //cubemapTexture->bind( 0, sampler );
+      ////glDisable( GL_DEPTH_TEST );
+      //glDepthMask( GL_FALSE );
+      //glDrawArrays( GL_TRIANGLES, 0, 36 );
+      //glDepthMask( GL_TRUE );
+      //skyboxShaderProgram.unuse();
+
+      //glEnable( GL_DEPTH_TEST );
+      //glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+      //glClear( GL_DEPTH_BUFFER_BIT );
+
+      // 1. reflective rendering for fun:
+
+      //reflectShaderProgram.use();
+      //glEnable( GL_DEPTH_TEST );
+      //glDepthFunc( GL_LESS );
+      //constantBuffer.update( &renderConstants, sizeof( RenderConstants ) );
+      //constantBuffer.bind( 0 );
+      //cubemapTexture->bind( 2, sampler );
+
+      //backpackModel.draw();
+      //reflectShaderProgram.unuse();
+
+
+      // 2. usual rendering of backpack:
 
       shaderProgram.use();
-
+      glDepthFunc( GL_LESS );
       constantBuffer.update( &renderConstants, sizeof( RenderConstants ) );
       constantBuffer.bind( 0 );
-
       backpackModel.draw();
+      shaderProgram.unuse();
+
+      // 3. render skybox last for perf
+
+      skyboxShaderProgram.use();
+      constantBuffer.update( &renderConstants, sizeof( RenderConstants ) );
+      constantBuffer.bind( 0 );
+      skyboxVertexData.bind();
+      cubemapTexture->bind( 0, sampler );
+      glDepthMask( GL_FALSE );
+      glDepthFunc( GL_LEQUAL );
+      glDrawArrays( GL_TRIANGLES, 0, 36 );
+      glDepthMask( GL_TRUE );
+      skyboxShaderProgram.unuse();
+
+      SDL_GL_SwapWindow( engine.window() );
+
+
+
+
+      // 3. old code, can probably remove soon:
 
       //testTexture.bind( 0, sampler );
       //testTexture2.bind( 1, sampler );
@@ -226,10 +349,6 @@ int main( int argc, char** argv )
 
       ////glDrawElements( GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0 );
       ////glDrawArrays( GL_TRIANGLES, 0, 3 );
-
-      SDL_GL_SwapWindow( engine.window() );
-
-      shaderProgram.unuse();
    }
 
    //engine.loop();

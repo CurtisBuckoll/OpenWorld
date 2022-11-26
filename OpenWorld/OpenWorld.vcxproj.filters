@@ -116,5 +116,14 @@
     <None Include="shaders\simpleShader_vs.glsl">
       <Filter>shaders</Filter>
     </None>
+    <None Include="shaders\skyboxShader_vs.glsl">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\skyboxShader_fs.glsl">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\reflective_fs.glsl">
+      <Filter>shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

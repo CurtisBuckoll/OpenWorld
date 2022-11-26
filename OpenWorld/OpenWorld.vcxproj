@@ -182,8 +182,11 @@
     <ClInclude Include="model\Model.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="shaders\reflective_fs.glsl" />
     <None Include="shaders\simpleShader_fs.glsl" />
     <None Include="shaders\simpleShader_vs.glsl" />
+    <None Include="shaders\skyboxShader_fs.glsl" />
+    <None Include="shaders\skyboxShader_vs.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

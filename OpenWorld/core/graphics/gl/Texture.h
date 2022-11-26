@@ -4,6 +4,7 @@
 
 #include <memory>
 #include <string>
+#include <vector>
 
 #include "Sampler.h"
 
@@ -33,6 +34,7 @@ public:
             uint32_t height, 
             bool isDepth, 
             bool genMips = false );
+   Texture( const std::vector<std::string>& cubemapFiles );
    ~Texture();
 
    // -----------------------------------------------------------------
@@ -65,6 +67,7 @@ private:
    GLsizei width_       = 0;
    GLsizei height_      = 0;
    GLsizei numChannels_ = 0;
+   bool isCubemap_      = false;
 
    // sampler
    // TODO: this seemed to work, but we probably want to create a Sampler class with instantions somewhere

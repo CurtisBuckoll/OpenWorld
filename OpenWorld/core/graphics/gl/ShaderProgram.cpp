@@ -115,6 +115,8 @@ void ShaderProgram::use()
 {
    glUseProgram( id_ );
    glBindVertexArray( vao_ );
+
+   // TODO: let's bind the samplers here
 }
 
 // =======================================================================

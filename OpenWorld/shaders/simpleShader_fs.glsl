@@ -1,7 +1,7 @@
 #version 440 core
 
-layout(binding = 0) uniform sampler2D diffTexture;
-layout(binding = 1) uniform sampler2D specTexture;
+layout (binding = 0) uniform sampler2D diffTexture;
+layout (binding = 1) uniform sampler2D specTexture;
 
 in vec2 texCoord;
 in vec3 fragPos;
