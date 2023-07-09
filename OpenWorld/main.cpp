@@ -30,64 +30,6 @@
 
 #include "io/Logging.h"
 
-float vertices[] = {
-   // positions          // normals           // texture coords
-   -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f,
-    0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  0.0f,
-    0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  1.0f,
-    0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  1.0f,
-   -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  1.0f,
-   -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f,
-
-   -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f,
-    0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  0.0f,
-    0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f,
-    0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f,
-   -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  1.0f,
-   -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f,
-
-   -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
-   -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  1.0f,
-   -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-   -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-   -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  0.0f,
-   -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
-
-    0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
-    0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  1.0f,
-    0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-    0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
-    0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  0.0f,
-    0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
-
-   -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f,
-    0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  1.0f,
-    0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
-    0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
-   -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  0.0f,
-   -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f,
-
-   -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f,
-    0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  1.0f,
-    0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f,
-    0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f,
-   -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  0.0f,
-   -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f
-};
-
-glm::vec3 cubePositions[] = {
-    glm::vec3( 0.0f,  0.0f,  0.0f ),
-    glm::vec3( 2.0f,  5.0f, -15.0f ),
-    glm::vec3( -1.5f, -2.2f, -2.5f ),
-    glm::vec3( -3.8f, -2.0f, -12.3f ),
-    glm::vec3( 2.4f, -0.4f, -3.5f ),
-    glm::vec3( -1.7f,  3.0f, -7.5f ),
-    glm::vec3( 1.3f, -2.0f, -2.5f ),
-    glm::vec3( 1.5f,  2.0f, -2.5f ),
-    glm::vec3( 1.5f,  0.2f, -1.5f ),
-    glm::vec3( -1.3f,  1.0f, -1.5f )
-};
-
 struct RenderConstants
 {
    glm::mat4 model_;
@@ -128,15 +70,6 @@ int main( int argc, char** argv )
    ow::Engine engine( kWinWidth, kWinHeight );
    engine.init();
 
-   // -------------------------------------
-   // begin texture code - test textures
-   //std::string texturePath = ow::core::workingDir() + "assets\\test\\wood_diffuse.png";
-   //ow::core::Texture testTexture( texturePath, true );
-   //texturePath = ow::core::workingDir() + "assets\\test\\wood_specular.png";
-   //ow::core::Texture testTexture2( texturePath, true );
-
-   ow::Buffer vboCube( ow::BufferUsage::VertexBuffer, sizeof( vertices ), sizeof( Vertex ), vertices );
-
    ow::ShaderProgram shaderProgram( "simpleShader_vs",
                                     "simpleShader_fs",
                                     inputLayout,
@@ -156,24 +89,6 @@ int main( int argc, char** argv )
 
    // test making a framebuffer
    auto fb = std::make_shared<ow::Framebuffer>( kWinWidth, kWinHeight );
-
-   // test of mesh, basically let's see if we can replace one of the above with a mesh implementation
-   // might want to undo this later, or see if we can save this unit test code in a better way
-
-   std::vector<ow::Vertex> owTestVertices = {
-      // positions          // colors           // texture coords
-      { glm::vec3{0.0f,  0.0f, -0.5f}, glm::vec3{1.0f, 0.0f, 0.0f}, glm::vec2{1.0f, 1.0f} }, // top right
-      { glm::vec3{0.0f, -1.0f, -0.5f}, glm::vec3{0.0f, 1.0f, 0.0f}, glm::vec2{1.0f, 0.0f} }, // bottom right
-      { glm::vec3{-1.0f, -1.0f, -0.5f},   glm::vec3{0.0f, 0.0f, 1.0f},   glm::vec2{0.0f, 0.0f}}, // bottom left
-      { glm::vec3{-1.0f,  0.0f, -0.5f},   glm::vec3{1.0f, 1.0f, 0.0f},   glm::vec2{0.0f, 1.0f}}  // top left
-   };
-
-   std::vector<uint32_t> owTestIndices = {
-      0, 1, 3, // first triangle
-      1, 2, 3  // second triangle
-   };
-
-   std::vector<std::shared_ptr<ow::Texture>> dummyTex;
 
    ow::Model backpackModel = ow::Model( "assets\\test\\backpack\\backpack.obj" );
 
@@ -238,49 +153,7 @@ int main( int argc, char** argv )
       skybox->draw();
       skyboxShaderProgram.unuse();
 
-      // old way:
-      //skyboxShaderProgram.use();
-      //constantBuffer.update( &renderConstants, sizeof( RenderConstants ) );
-      //constantBuffer.bind( 0 );
-      //skyboxVertexData.bind();
-      //cubemapTexture->bind( 0, sampler );
-      //glDepthMask( GL_FALSE );
-      //glDepthFunc( GL_LEQUAL );
-      //glDrawArrays( GL_TRIANGLES, 0, 36 );
-      //glDepthMask( GL_TRUE );
-      //skyboxShaderProgram.unuse();
-
       SDL_GL_SwapWindow( engine.window() );
-
-
-
-
-      // 3. old code, can probably remove soon:
-
-      //testTexture.bind( 0, sampler );
-      //testTexture2.bind( 1, sampler );
-
-      //vboCube.bind();
-
-      //for( unsigned int i = 0; i < 10; i++ )
-      //{
-      //   glm::mat4 model = glm::mat4( 1.0f );
-      //   model = glm::translate( model, cubePositions[i] );
-      //   float angle = 20.0f * i;
-      //   renderConstants.model_ = glm::rotate( model, glm::radians( angle ), glm::vec3( 1.0f, 0.3f, 0.5f ) );
-
-      //   constantBuffer.update( &renderConstants, sizeof( RenderConstants ) );
-      //   constantBuffer.bind( 0 );
-
-      //   glDrawArrays( GL_TRIANGLES, 0, 36 );
-      //}
-
-      ////glDrawArrays( GL_TRIANGLES, 0, 36 );
-
-      ////testMesh->draw();
-
-      ////glDrawElements( GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0 );
-      ////glDrawArrays( GL_TRIANGLES, 0, 3 );
    }
 
    //engine.loop();

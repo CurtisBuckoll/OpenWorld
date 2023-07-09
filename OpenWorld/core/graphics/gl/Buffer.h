@@ -32,7 +32,7 @@ public:
 
    // -----------------------------------------------------------------
    //
-   Buffer( BufferUsage usage, uint32_t sizeBytes = 0, uint32_t stride = 0, const void* data = nullptr );
+   Buffer( BufferUsage usage, uint32_t sizeBytes, uint32_t stride = 0, const void* data = nullptr );
 
    // -----------------------------------------------------------------
    //
@@ -41,9 +41,6 @@ public:
    // -----------------------------------------------------------------
    //
    void update( void* data, uint32_t sizeBytes, uint32_t offset = 0 );
-
-   // TODO
-   // void clear(...);
 
    // -----------------------------------------------------------------
    //
