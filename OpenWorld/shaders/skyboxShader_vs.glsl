@@ -8,6 +8,7 @@ layout (std140, binding = 0) uniform ConstantBuffer
   mat4 view;
   mat4 proj;
   vec3 viewPos;
+  uint bEnableNormalMaps;
 };
 
 out vec3 texCoords;

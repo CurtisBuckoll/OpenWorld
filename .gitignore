@@ -1,4 +1,6 @@
 .vs/
+OpenWorld/assets/sponza/scene.bin
+OpenWorld/imgui.ini
 OpenWorld/x64/Debug/
 x64/Debug/*.exe
 x64/Debug/*.ilk

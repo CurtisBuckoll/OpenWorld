@@ -76,7 +76,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)deps/include/;$(ProjectDir);$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)deps/imgui/;$(SolutionDir)deps/include/;$(ProjectDir);$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)deps/lib/x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -86,7 +86,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)deps/include/;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)deps/imgui/;$(SolutionDir)deps/include/;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)deps/lib/x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -151,6 +151,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\deps\imgui\imgui.cpp" />
+    <ClCompile Include="..\deps\imgui\imgui_demo.cpp" />
+    <ClCompile Include="..\deps\imgui\imgui_draw.cpp" />
+    <ClCompile Include="..\deps\imgui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="..\deps\imgui\imgui_impl_sdl2.cpp" />
+    <ClCompile Include="..\deps\imgui\imgui_impl_sdlrenderer2.cpp" />
+    <ClCompile Include="..\deps\imgui\imgui_tables.cpp" />
+    <ClCompile Include="..\deps\imgui\imgui_widgets.cpp" />
     <ClCompile Include="core\Camera3D.cpp" />
     <ClCompile Include="core\Engine.cpp" />
     <ClCompile Include="core\graphics\gl\Buffer.cpp" />
@@ -167,6 +175,16 @@
     <ClCompile Include="model\Skybox.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\deps\imgui\imconfig.h" />
+    <ClInclude Include="..\deps\imgui\imgui.h" />
+    <ClInclude Include="..\deps\imgui\imgui_impl_opengl3.h" />
+    <ClInclude Include="..\deps\imgui\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="..\deps\imgui\imgui_impl_sdl2.h" />
+    <ClInclude Include="..\deps\imgui\imgui_impl_sdlrenderer2.h" />
+    <ClInclude Include="..\deps\imgui\imgui_internal.h" />
+    <ClInclude Include="..\deps\imgui\imstb_rectpack.h" />
+    <ClInclude Include="..\deps\imgui\imstb_textedit.h" />
+    <ClInclude Include="..\deps\imgui\imstb_truetype.h" />
     <ClInclude Include="3rdparty\io\stb_image.h" />
     <ClInclude Include="core\Camera3D.h" />
     <ClInclude Include="core\Engine.h" />
