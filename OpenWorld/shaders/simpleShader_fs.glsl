@@ -31,6 +31,12 @@ vec3 lightColor = vec3(1.0, 1.0, 1.0);
 
 void main()
 {
+   vec4 diffTextureRGBA = texture(diffTexture, texCoord);
+   if (diffTextureRGBA.a < 0.1) {
+      // early out for alpha cutout
+      discard;
+   }
+
    vec3 mappedNormal = normal;
 
    if (bEnableNormalMaps == 1) {
@@ -46,12 +52,12 @@ void main()
 
    // lighting calc
    float ambientStrength = 0.1;
-   vec3 ambient = ambientStrength * lightColor * texture(diffTexture, texCoord).rgb;
+   vec3 ambient = ambientStrength * lightColor * diffTextureRGBA.rgb;
 
    //vec3 surfNorm = normalize(normal);
    vec3 dirToLight = normalize(-lightDir);
    float diff = max(dot(mappedNormal, dirToLight), 0.0);
-   vec3 diffuse = diff * lightColor * texture(diffTexture, texCoord).rgb;
+   vec3 diffuse = diff * lightColor * diffTextureRGBA.rgb;
 
    float specularStrength = 0.8;
    vec3 viewDir = normalize(viewPos - fragPos);
