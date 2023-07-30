@@ -51,6 +51,10 @@ public:
    //
    SDL_Window* window() { return window_; }
 
+   // -----------------------------------------------------------------
+   //
+   SDL_GLContext getGLContext() { return glContext_; }
+
 private:
 
    // -----------------------------------------------------------------
@@ -59,6 +63,7 @@ private:
 
    // -----------------------------------------------------------------
    //
+   SDL_GLContext glContext_;
    SDL_Window* window_;
    int         width_;
    int         height_;

@@ -19,11 +19,13 @@ Mesh::Mesh( const std::vector<Vertex>& vertices,
       const std::vector<uint32_t>& indices,
       const std::vector<std::shared_ptr<ow::Texture>>& diffuseTextures,
       const std::vector<std::shared_ptr<ow::Texture>>& specularTextures,
+      const std::vector<std::shared_ptr<ow::Texture>>& normalMapTextures,
       std::shared_ptr<ow::Sampler> sampler )
    : vertices_( vertices )
    , indices_( indices )
    , diffuseTextures_( diffuseTextures )
    , specularTextures_( specularTextures )
+   , normalMapTextures_( normalMapTextures )
    , sampler_( sampler )
 {
    //sampler_ = std::make_shared<ow::core::Sampler>( ow::core::SamplerType::LinFilterLinMips );
@@ -45,11 +47,19 @@ void Mesh::draw()
    }
    if( specularTextures_.size() )
    {
-      diffuseTextures_[0]->bind( 1, sampler_ );
+      specularTextures_[0]->bind( 1, sampler_ );
    }
    else
    {
       OW_LOG( WARN, "no specular textures available for mesh" );
+   }
+   if( normalMapTextures_.size() )
+   {
+      normalMapTextures_[0]->bind( 2, sampler_ );
+   }
+   else
+   {
+      OW_LOG( WARN, "no normal maps available for mesh" );
    }
 
    // bind the vbo & ebo, for now fixed at slot 0 with no offset
@@ -71,15 +81,15 @@ void Mesh::init( const std::vector<Vertex>& vertices,
             const std::vector<uint32_t>& indices )
 {
    vbo_ = std::make_shared<ow::Buffer>( BufferUsage::VertexBuffer,
-                                          sizeof( Vertex ) * vertices.size(),
-                                          sizeof( Vertex ),
-                                          (void*)vertices.data() );
+                                        sizeof( Vertex ) * vertices.size(),
+                                        sizeof( Vertex ),
+                                        (void*)vertices.data() );
    if( indices.size() > 0 )
    {
       ebo_ = std::make_shared<ow::Buffer>( BufferUsage::ElementBuffer,
-                                             sizeof( uint32_t ) * indices.size(),
-                                             sizeof( uint32_t ),
-                                             (void*)indices.data() );
+                                           sizeof( uint32_t ) * indices.size(),
+                                           sizeof( uint32_t ),
+                                           (void*)indices.data() );
    }
 }
 }

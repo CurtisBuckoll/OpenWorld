@@ -16,6 +16,7 @@ layout (std140, binding = 0) uniform ConstantBuffer
   mat4 view;
   mat4 proj;
   vec3 viewPos;
+  uint bEnableNormalMaps;
 };
 
 //layout (std140, binding = 1) uniform DirectionalLight

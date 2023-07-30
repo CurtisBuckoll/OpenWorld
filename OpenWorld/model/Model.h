@@ -50,7 +50,7 @@ public:
       OW_LOG( INFO, "asset directory: %s", assetDirectory_.c_str() );
 
       Assimp::Importer importer;
-      auto scene = importer.ReadFile( assetFilePath, aiProcess_Triangulate | aiProcess_FlipUVs);
+      auto scene = importer.ReadFile( assetFilePath, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace );
       if(!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) 
       {
          OW_LOG( ERRO, "Assimp error loading model: %s", assetFilePath.c_str() );
@@ -97,6 +97,7 @@ private:
       std::vector<uint32_t> indices;
       std::vector<std::shared_ptr<ow::Texture>> diffTextures;
       std::vector<std::shared_ptr<ow::Texture>> specTextures;
+      std::vector<std::shared_ptr<ow::Texture>> normalMaps;
 
       for( uint32_t i = 0; i < mesh->mNumVertices; i++ )
       {
@@ -107,10 +108,18 @@ private:
          v.z = mesh->mVertices[i].z;
          vertex.position_ = v;
 
+         // TODO remove this, quick hack
+         //vertex.position_ = v * 0.1f;
+
          v.x = mesh->mNormals[i].x;
          v.y = mesh->mNormals[i].y;
          v.z = mesh->mNormals[i].z;
          vertex.normal_ = v;
+
+         v.x = mesh->mTangents[i].x;
+         v.y = mesh->mTangents[i].y;
+         v.z = mesh->mTangents[i].z;
+         vertex.tangent_ = v;
 
          // the mesh may not contain texture coords, so check first. also,
          // up to 8 different sets of texture coords are supported, but we
@@ -144,15 +153,24 @@ private:
          aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
          diffTextures = loadMaterialTextures( material, aiTextureType_DIFFUSE );
          specTextures = loadMaterialTextures( material, aiTextureType_SPECULAR );
+         normalMaps = loadMaterialTextures( material, aiTextureType_NORMALS );
+         if( normalMaps.size() == 0 )  {
+            // try loading normal maps using different flag, depends on file type
+            normalMaps = loadMaterialTextures( material, aiTextureType_HEIGHT );
+            if( normalMaps.size() == 0 )
+            {
+               OW_LOG_WARN( "Unable to load normal maps for a model part" );
+            }
+         }
       }
 
-      return ow::Mesh( vertices, indices, diffTextures, specTextures, sampler_ );
+      return ow::Mesh( vertices, indices, diffTextures, specTextures, normalMaps, sampler_ );
    }
 
    // -----------------------------------------------------------------
    //
    std::vector<std::shared_ptr<ow::Texture>> loadMaterialTextures( aiMaterial* mat,
-                                                                         aiTextureType type )
+                                                                   aiTextureType type )
    {
       std::vector<std::shared_ptr<ow::Texture>> textures;
       for( unsigned int i = 0; i < mat->GetTextureCount( type ); i++ )

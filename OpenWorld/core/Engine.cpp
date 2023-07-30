@@ -35,8 +35,8 @@ void Engine::init()
    // initGL
    glViewport( 0, 0, width_, height_ );
    SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
-   SDL_GLContext glContext = SDL_GL_CreateContext( window_ );
-   if( glContext == nullptr )
+   glContext_ = SDL_GL_CreateContext( window_ );
+   if( glContext_ == nullptr )
    {
       OW_LOG( ERRO, "SDL_GL Context failed to create" );
       exit( 0 );
