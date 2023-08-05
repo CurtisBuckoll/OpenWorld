@@ -108,8 +108,8 @@ private:
          v.z = mesh->mVertices[i].z;
          vertex.position_ = v;
 
-         // TODO remove this, quick hack
-         //vertex.position_ = v * 0.1f;
+         // TODO remove this, quick hack, need to properly fix scale
+         vertex.position_ = v * 0.02f;
 
          v.x = mesh->mNormals[i].x;
          v.y = mesh->mNormals[i].y;

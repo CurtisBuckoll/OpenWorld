@@ -203,7 +203,11 @@
     <ClInclude Include="model\Skybox.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="shaders\fullscreenProgram_fs.glsl" />
+    <None Include="shaders\fullscreenProgram_vs.glsl" />
     <None Include="shaders\reflective_fs.glsl" />
+    <None Include="shaders\renderDepth_fs.glsl" />
+    <None Include="shaders\renderDepth_vs.glsl" />
     <None Include="shaders\simpleShader_fs.glsl" />
     <None Include="shaders\simpleShader_vs.glsl" />
     <None Include="shaders\skyboxShader_fs.glsl" />

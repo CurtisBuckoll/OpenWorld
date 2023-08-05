@@ -61,7 +61,7 @@ void Camera3D::processKeyboard( const bool* keys )
 	}
 	if( keys[SDLK_s] )
 	{
-			position_ -= front_ * velocity;
+		position_ -= front_ * velocity;
 	}
 	if( keys[SDLK_a] )
 	{
@@ -77,6 +77,14 @@ void Camera3D::processKeyboard( const bool* keys )
 //
 void Camera3D::processMouse( const MouseState* pos )
 {
+	if( !pos->leftButtonHold_ )
+	{
+		// only process if holding left mouse. reset firstMouse so that we
+		// do not jump awkwardly when moving view around again
+		firstMouse_ = true;
+		return;
+	}
+
 	static float lastX = 0;
 	static float lastY = 0;
 	float xoffset;

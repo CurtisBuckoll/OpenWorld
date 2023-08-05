@@ -10,6 +10,8 @@ struct MouseState
 {
 	int32_t x_ = 0;
 	int32_t y_ = 0;
+	bool leftButtonHold_ = false;
+	bool rightButtonHold_ = false;
 };
 
 class InputState

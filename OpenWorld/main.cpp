@@ -43,6 +43,12 @@ struct RenderConstants
    uint32_t bEnableNormalMaps_;
 };
 
+struct LightConstants
+{
+   glm::mat4 lightView_;
+   glm::mat4 lightProj_;
+};
+
 struct Vertex
 {
    float pos[3];
@@ -53,6 +59,11 @@ struct Vertex
 
 static constexpr ow::AttribFormat skyboxInputLayout[] = {
    {0, 3, GL_FLOAT, GL_FALSE, 0},
+};
+
+static constexpr ow::AttribFormat fullscreenInputLayout[] = {
+   {0, 2, GL_FLOAT, GL_FALSE, 0},
+   {1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float)},
 };
 
 // TODO: read from file
@@ -71,18 +82,18 @@ int main( int argc, char** argv )
    engine.init();
 
    // Initialize ImGUI
-   bool init = false;
+   bool initImgui = false;
    IMGUI_CHECKVERSION();
    ImGui::CreateContext();
    ImGuiIO& io = ImGui::GetIO(); 
    (void)io;
    ImGui::StyleColorsDark();
-   init = ImGui_ImplSDL2_InitForOpenGL( engine.window(), engine.getGLContext() );
-   init = ImGui_ImplOpenGL3_Init( "#version 440" );
+   initImgui = ImGui_ImplSDL2_InitForOpenGL( engine.window(), engine.getGLContext() );
+   initImgui = ImGui_ImplOpenGL3_Init( "#version 440" );
 
    // imgui variables
    bool enableNormalMapping = true;
-   float size = 1.0f;
+   glm::vec3 lightPos( 30.0f, 30.0f, 30.0f );
    float color[4] = { 0.8f, 0.3f, 0.02f, 1.0f };
 
    ow::ShaderProgram shaderProgram( "simpleShader_vs",
@@ -100,6 +111,18 @@ int main( int argc, char** argv )
                                           skyboxInputLayout,
                                           sizeof( skyboxInputLayout ) / sizeof( ow::AttribFormat ) );
 
+   ow::ShaderProgram renderShadowsProgram( "renderDepth_vs",
+                                           "renderDepth_fs",
+                                           ow::inputLayout,
+                                           sizeof( ow::inputLayout ) / sizeof( ow::AttribFormat ) );
+
+   ow::ShaderProgram fullscreenBlitProgram( "fullscreenProgram_vs",
+                                            "fullscreenProgram_fs",
+                                            fullscreenInputLayout,
+                                            sizeof( fullscreenInputLayout ) / sizeof( ow::AttribFormat ) );
+
+   auto shadowFb = std::make_shared<ow::Framebuffer>( 2048, 2048, true );
+
    auto sampler = std::make_shared<ow::Sampler>( ow::SamplerType::LinFilterLinMips );
 
    // test making a framebuffer
@@ -116,18 +139,21 @@ int main( int argc, char** argv )
 
    OW_LOG_INFO( "starting main loop" );
 
+   glm::mat4 renderProjMat = glm::perspective( glm::radians( 60.0f ), (float)kWinWidth / (float)kWinHeight, 0.1f, 100.0f );
+
    RenderConstants renderConstants;
-   renderConstants.proj_ = glm::perspective( glm::radians( 60.0f ), (float)kWinWidth / (float)kWinHeight, 0.1f, 5000.0f );
-   renderConstants.view_ = glm::translate( glm::mat4( 1.0f ), glm::vec3( 0.0f, 0.0f, -3.0f ) );
+   renderConstants.proj_ = renderProjMat;
+   renderConstants.view_ = glm::translate( glm::mat4( 1.0f ), glm::vec3( 0.0f, -40.0f, -3.0f ) );
    renderConstants.model_ = glm::mat4( 1.0f );
    renderConstants.bEnableNormalMaps_ = 1;
 
    ow::Buffer constantBuffer( ow::BufferUsage::UniformBuffer, sizeof( RenderConstants ), 0, nullptr );
+   ow::Buffer lightConstantBuffers( ow::BufferUsage::UniformBuffer, sizeof( LightConstants ), 0, nullptr );
 
    // input state and camera test
    InputState inputState;
    Camera3D cam;
-   cam.init( glm::vec3( 0.0f, 0.0f, 3.0f ) );
+   cam.init( glm::vec3( 0.0f, 3.0f, 3.0f ) );
 
    bool running = true;
    while( running )
@@ -141,19 +167,64 @@ int main( int argc, char** argv )
          cam.processInput( inputState );
       }
 
-      renderConstants.view_ = cam.viewMatrix();
-      renderConstants.viewPos_ = cam.viewPosition();
-      renderConstants.bEnableNormalMaps_ = enableNormalMapping;
-
-      glClearDepth( 1.0 );
-      glClearColor( 0.2f, 0.3f, 0.5f, 1.0f );
-      glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-      glEnable( GL_DEPTH_TEST );
-
       // new frame for imgui
       ImGui_ImplOpenGL3_NewFrame();
       ImGui_ImplSDL2_NewFrame();
       ImGui::NewFrame();
+
+      // 0. Render shadows
+      // hack this in for now, we will definitely need to fix this up to support multiple lights + plumbing the data in properly
+      glViewport( 0, 0, 2048, 2048 ); // TODO do this some better way
+
+      renderShadowsProgram.use();
+      shadowFb->bind();
+      glClearDepth( 1.0 );
+      glClear( GL_DEPTH_BUFFER_BIT );
+      glEnable( GL_DEPTH_TEST );
+      glDepthFunc( GL_LESS );
+
+
+
+      glm::mat4 lightView = glm::lookAt( lightPos,
+                                         lightPos + glm::vec3( -1.0f, -1.0f, -1.0f ),
+                                         glm::vec3( 0.0f, 1.0f, 0.0f ) );
+      glm::mat4 lightProjection = glm::ortho( -50.0f, 50.0f, -50.0f, 50.0f, 1.0f, 100.0f );
+
+      renderConstants.view_ = lightView;
+      renderConstants.proj_ = lightProjection;
+      renderConstants.bEnableNormalMaps_ = enableNormalMapping;
+
+      constantBuffer.update( &renderConstants, sizeof( RenderConstants ) );
+      constantBuffer.bind( 0 );
+      backpackModel.draw();
+
+      shadowFb->unbind();
+
+
+      // test for visualize, can delete this
+#if 0
+      float quadVertices_delete [] = {
+         // positions   // texCoords
+         -1.0f,  1.0f,  0.0f, 1.0f,
+         -1.0f, -1.0f,  0.0f, 0.0f,
+          1.0f, -1.0f,  1.0f, 0.0f,
+
+         -1.0f,  1.0f,  0.0f, 1.0f,
+          1.0f, -1.0f,  1.0f, 0.0f,
+          1.0f,  1.0f,  1.0f, 1.0f
+      };
+
+      auto quad_buffer = std::make_shared<ow::Buffer>( ow::BufferUsage::VertexBuffer, sizeof( quadVertices_delete ), 4 * sizeof(float), quadVertices_delete);
+
+      fullscreenBlitProgram.use();
+      glViewport( 0, 0, kWinWidth, kWinHeight ); // TODO do this some better way
+      //glBindVertexArray( quad_buffer );
+      quad_buffer->bind();
+      glDisable( GL_DEPTH_TEST );
+      //glBindTexture( GL_TEXTURE_2D, shadowFb->depthTexId() );
+      shadowFb->depthTex_->bind( 0, sampler );
+      glDrawArrays( GL_TRIANGLES, 0, 6 );
+#endif
 
       // 1. reflective rendering for fun:
 
@@ -169,29 +240,55 @@ int main( int argc, char** argv )
 
 
       // 2. usual rendering of backpack:
+#if 1
+      glViewport( 0, 0, kWinWidth, kWinHeight ); // TODO do this some better way
+
+      renderConstants.view_ = cam.viewMatrix();
+      renderConstants.viewPos_ = cam.viewPosition();
+      renderConstants.proj_ = renderProjMat;
+      renderConstants.bEnableNormalMaps_ = enableNormalMapping;
+
+      LightConstants lightConstants{};
+      lightConstants.lightView_ = lightView;
+      lightConstants.lightProj_ = lightProjection;
+
+      glClearDepth( 1.0 );
+      glClearColor( 0.2f, 0.3f, 0.5f, 1.0f );
+      glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+      glEnable( GL_DEPTH_TEST );
 
       shaderProgram.use();
       glDepthFunc( GL_LESS );
       constantBuffer.update( &renderConstants, sizeof( RenderConstants ) );
+      lightConstantBuffers.update( &lightConstants, sizeof( LightConstants ) );
+
       constantBuffer.bind( 0 );
+      lightConstantBuffers.bind( 1 );
+
+      shadowFb->depthTex_->bind( 3, sampler );
+
       backpackModel.draw();
       shaderProgram.unuse();
+#endif
 
       // 3. render skybox last for perf
-
+      glEnable( GL_DEPTH_TEST );
       skyboxShaderProgram.use();
       constantBuffer.bind( 0 );
       skybox->draw();
       skyboxShaderProgram.unuse();
 
+
       // imgui window population
-      ImGui::Begin( "My name is window, ImGUI window" );
+      ImGui::Begin( "OpenWorld" );
       // Text that appears in the window
       ImGui::Text( "OpenWorld" );
       // Checkbox that appears in the window
       ImGui::Checkbox( "Enable Normal Mapping", &enableNormalMapping );
       // Slider that appears in the window
-      ImGui::SliderFloat( "Slider", &size, 0.5f, 2.0f );
+      ImGui::SliderFloat( "Light pos x", &lightPos.x, -50.0f, 50.0f );
+      ImGui::SliderFloat( "Light pos y", &lightPos.y, -50.0f, 50.0f );
+      ImGui::SliderFloat( "Light pos z", &lightPos.z, -50.0f, 50.0f );
       // Fancy color editor that appears in the window
       ImGui::ColorEdit4( "Colour", color );
       // Ends the window
