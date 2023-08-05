@@ -60,7 +60,7 @@ private:
 	float yaw_ = -90.0f;
 	float pitch_ = 0.0f;
 
-	const float movementSpeed_ = 0.25f;
+	const float movementSpeed_ = 0.01f;
 	const float mouseSensitivity_ = 0.4f;
 
 	bool firstMouse_ = true;

@@ -15,16 +15,26 @@ namespace ow
 
 // =======================================================================
 //
-Framebuffer::Framebuffer( uint32_t width, uint32_t height )
+Framebuffer::Framebuffer( uint32_t width, uint32_t height, bool depthOnly /* = false */ )
 {
    glGenFramebuffers( 1, &id_ );
    glBindFramebuffer( GL_FRAMEBUFFER, id_ );
 
-   auto tex = std::make_shared<ow::Texture>( width, height, false );
-   glFramebufferTexture2D( GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, tex->id(), 0 );
+   depthTex_ = std::make_shared<ow::Texture>( width, height, true );
+   glFramebufferTexture2D( GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthTex_->id(), 0 );
 
-   auto depthTex = std::make_shared<ow::Texture>( width, height, true );
-   glFramebufferTexture2D( GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthTex->id(), 0 );
+   if( depthOnly )
+   {
+      // need to specify no colour buffer used
+      glDrawBuffer( GL_NONE );
+      glReadBuffer( GL_NONE );
+   }
+   else
+   {
+      colourTex_ = std::make_shared<ow::Texture>( width, height, false );
+      glFramebufferTexture2D( GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, colourTex_->id(), 0 );
+   }
+
 
    if( glCheckFramebufferStatus( GL_FRAMEBUFFER ) != GL_FRAMEBUFFER_COMPLETE )
    {

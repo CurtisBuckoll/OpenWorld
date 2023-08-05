@@ -191,5 +191,17 @@
     <None Include="shaders\reflective_fs.glsl">
       <Filter>shaders</Filter>
     </None>
+    <None Include="shaders\renderDepth_fs.glsl">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\renderDepth_vs.glsl">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\fullscreenProgram_fs.glsl">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\fullscreenProgram_vs.glsl">
+      <Filter>shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

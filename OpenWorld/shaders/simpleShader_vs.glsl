@@ -14,10 +14,17 @@ layout (std140, binding = 0) uniform ConstantBuffer
   uint bEnableNormalMaps;
 };
 
+layout (std140, binding = 1) uniform LightConstantBuffer
+{
+  mat4 lightView;
+  mat4 lightProj;
+};
+
 out vec2 texCoord;
 out vec3 fragPos;
 out vec3 normal;
 out vec3 tangentVec;
+out vec4 fragPosLight;
 
 void main()
 {
@@ -25,6 +32,7 @@ void main()
    texCoord = uv;
    normal = mat3(transpose(inverse(model))) * norm;
    tangentVec = tangent;
+   fragPosLight = lightProj * lightView * vec4(fragPos, 1.0);
    
    gl_Position = proj * view * vec4(fragPos, 1.0);
 }

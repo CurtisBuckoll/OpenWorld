@@ -16,7 +16,9 @@ InputState::InputState()
 
 bool InputState::pollForEvents()
 {
-	SDL_GetMouseState( &mouseState_.x_, &mouseState_.y_ );
+	auto buttonState = SDL_GetMouseState( &mouseState_.x_, &mouseState_.y_ );
+	mouseState_.leftButtonHold_ = buttonState & SDL_BUTTON_LMASK;
+	mouseState_.rightButtonHold_ = buttonState & SDL_BUTTON_RMASK;
 
 	SDL_Event evnt;
 	while( SDL_PollEvent( &evnt ) )
